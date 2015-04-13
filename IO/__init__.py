@@ -7,10 +7,9 @@ tree_creator = TreeCreator(5)
 tree_creator.create(False)
 
 for key in tree_creator.tree_map.keys():
-    print(str(key)+": ")
     if isinstance(tree_creator.tree_map[key], Function):
-        print(tree_creator.tree_map[key].function_name)
+        print(str(key)+": "+ tree_creator.tree_map[key].function_name)
     else:
-        print(tree_creator.tree_map[key])
+        print(str(key)+": "+ str(tree_creator.tree_map[key]))
 
 print(tree_creator.tree)
