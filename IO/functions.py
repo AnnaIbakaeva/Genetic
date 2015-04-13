@@ -22,19 +22,3 @@ class OneVariableFunction(Function):
     def execute(self, var1, var2=None):
         self.function_name(var1)
 
-
-def plus(var1, var2):
-    return var1+var2
-
-
-def minus(var1, var2):
-    return var1-var2
-
-
-def div(var1, var2):
-    return var1/(var2+0.00001)
-
-
-def multiplication(var1, var2):
-    return var1*var2
-
