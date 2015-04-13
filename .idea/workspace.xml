@@ -27,10 +27,21 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="__init__.py" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="__init__.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/IO/__init__.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="10" column="44" selection-start="313" selection-end="313" vertical-scroll-proportion="0.46646342" vertical-offset="0" max-vertical-offset="328">
+            <state line="26" column="0" selection-start="679" selection-end="679" vertical-scroll-proportion="0.0" vertical-offset="267" max-vertical-offset="646">
+              <folding>
+                <marker date="1428927971334" expanded="true" signature="162:299" placeholder="..." />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="reproduction.py" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/IO/reproduction.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="2" column="26" selection-start="28" selection-end="28" vertical-scroll-proportion="-0.34756097" vertical-offset="148" max-vertical-offset="476">
               <folding />
             </state>
           </provider>
@@ -73,6 +84,7 @@
         <option value="$PROJECT_DIR$/IO/functions.py" />
         <option value="$PROJECT_DIR$/IO/tree_creation.py" />
         <option value="$PROJECT_DIR$/IO/__init__.py" />
+        <option value="$PROJECT_DIR$/IO/reproduction.py" />
       </list>
     </option>
   </component>
@@ -388,7 +400,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
@@ -399,7 +411,7 @@
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39869282" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2265861" sideWeight="0.50111854" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.42156863" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.42156863" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -452,7 +464,9 @@
     <entry file="file://$PROJECT_DIR$/IO/__init__.py">
       <provider selected="true" editor-type-id="text-editor">
         <state line="15" column="24" selection-start="426" selection-end="426" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="357">
-          <folding />
+          <folding>
+            <marker date="1428927971334" expanded="true" signature="162:299" placeholder="..." />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -484,7 +498,9 @@
     <entry file="file://$PROJECT_DIR$/IO/__init__.py">
       <provider selected="true" editor-type-id="text-editor">
         <state line="1" column="0" selection-start="20" selection-end="20" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="119">
-          <folding />
+          <folding>
+            <marker date="1428927971334" expanded="true" signature="162:299" placeholder="..." />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -516,7 +532,9 @@
     <entry file="file://$PROJECT_DIR$/IO/__init__.py">
       <provider selected="true" editor-type-id="text-editor">
         <state line="1" column="0" selection-start="20" selection-end="20" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="119">
-          <folding />
+          <folding>
+            <marker date="1428927971334" expanded="true" signature="162:299" placeholder="..." />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -548,7 +566,9 @@
     <entry file="file://$PROJECT_DIR$/IO/__init__.py">
       <provider selected="true" editor-type-id="text-editor">
         <state line="1" column="0" selection-start="20" selection-end="20" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="119">
-          <folding />
+          <folding>
+            <marker date="1428927971334" expanded="true" signature="162:299" placeholder="..." />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -580,7 +600,9 @@
     <entry file="file://$PROJECT_DIR$/IO/__init__.py">
       <provider selected="true" editor-type-id="text-editor">
         <state line="1" column="0" selection-start="20" selection-end="20" vertical-scroll-proportion="0.0" vertical-offset="17" max-vertical-offset="119">
-          <folding />
+          <folding>
+            <marker date="1428927971334" expanded="true" signature="162:299" placeholder="..." />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -605,7 +627,9 @@
     <entry file="file://$PROJECT_DIR$/IO/__init__.py">
       <provider selected="true" editor-type-id="text-editor">
         <state line="1" column="0" selection-start="20" selection-end="20" vertical-scroll-proportion="0.0" vertical-offset="17" max-vertical-offset="119">
-          <folding />
+          <folding>
+            <marker date="1428927971334" expanded="true" signature="162:299" placeholder="..." />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -636,7 +660,16 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/IO/__init__.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="10" column="44" selection-start="313" selection-end="313" vertical-scroll-proportion="0.46646342" vertical-offset="0" max-vertical-offset="328">
+        <state line="26" column="0" selection-start="679" selection-end="679" vertical-scroll-proportion="0.0" vertical-offset="267" max-vertical-offset="646">
+          <folding>
+            <marker date="1428927971334" expanded="true" signature="162:299" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/IO/reproduction.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="2" column="26" selection-start="28" selection-end="28" vertical-scroll-proportion="-0.34756097" vertical-offset="148" max-vertical-offset="476">
           <folding />
         </state>
       </provider>
