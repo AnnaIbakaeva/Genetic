@@ -2,6 +2,7 @@
 
 class Reproductor(object):
     sum_fitness = 0
+
     def __init__(self, population):
         self._init_population = population
         self._selected_population = []

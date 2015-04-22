@@ -1,58 +1,60 @@
 import random
 from sets import function_set
 from functions import TwoVariableFunction, Function
+from tree import Tree
 
 
 class TreeCreator(object):
-    tree = []
-    tree_map = {}
-    depth = 0
+    tree = None
 
     def __init__(self, depth):
         self.depth = depth
+        self._tree_struct = []
+        self._tree_map = {}
 
     def create(self, full):
-        self.tree_map[0] = random.choice(function_set)
+        self._tree_map[0] = random.choice(function_set)
         if full:
-            return self._full_tree(0, 1)
+            self._full_tree(0, 1)
+            self.tree = Tree(self._tree_struct, self._tree_map)
         else:
-            return self._grow_tree(0, 1)
+            self._grow_tree(0, 1)
+            self.tree = Tree(self._tree_struct, self._tree_map)
 
     def _full_tree(self, current_index, current_count):
-        self.tree.append([current_count])
+        self._tree_struct.append([current_count])
         self._add_node(current_count)
         current_count += 1
-        if isinstance(self.tree_map[current_index], TwoVariableFunction):
-            self.tree[len(self.tree)-1].append(current_count)
+        if isinstance(self._tree_map[current_index], TwoVariableFunction):
+            self._tree_struct[len(self._tree_struct)-1].append(current_count)
             self._add_node(current_count)
             current_count += 1
-        if self._get_current_depth() >= self.depth:
-            return self.tree
-        current_index += 1
-        return self._full_tree(current_index, current_count)
+        if self._get_current_depth() < self.depth:
+            current_index += 1
+            self._full_tree(current_index, current_count)
 
     def _grow_tree(self, current_index, current_count):
-        if isinstance(self.tree_map[current_index], Function):
-            self.tree.append([current_count])
+        if isinstance(self._tree_map[current_index], Function):
+            self._tree_struct.append([current_count])
             self._add_node(current_count)
             current_count += 1
-            if isinstance(self.tree_map[current_index], TwoVariableFunction):
-                self.tree[len(self.tree)-1].append(current_count)
+            if isinstance(self._tree_map[current_index], TwoVariableFunction):
+                self._tree_struct[len(self._tree_struct)-1].append(current_count)
                 self._add_node_in_grow(current_count)
                 current_count += 1
-            if self._get_current_depth() >= self.depth:
-                return self.tree
-            current_index += 1
-            return self._grow_tree(current_index, current_count)
+            if self._get_current_depth() < self.depth:
+                current_index += 1
+                self._grow_tree(current_index, current_count)
         else:
-            self.tree.append([])
+            self._tree_struct.append([])
             current_index += 1
-            return self._grow_tree(current_index, current_count)
+            if self._get_current_depth() < self.depth:
+                self._grow_tree(current_index, current_count)
 
     def _max_depth(self, current_depth, index, visited, depths):
         visited.append(index)
         try:
-            for vertex in self.tree[index]:
+            for vertex in self._tree_struct[index]:
                 if not (vertex in visited):
                     self._max_depth(current_depth+1, vertex, visited, depths)
             if len(depths) == 0:
@@ -68,7 +70,7 @@ class TreeCreator(object):
     def _min_depth(self, current_depth, index, visited, depths):
         visited.append(index)
         try:
-            for vertex in self.tree[index]:
+            for vertex in self._tree_struct[index]:
                 if not (vertex in visited):
                     self._min_depth(current_depth+1, vertex, visited, depths)
             if len(depths) == 0:
@@ -83,16 +85,12 @@ class TreeCreator(object):
 
     def _add_node(self, current_count):
         if self._get_max_depth() >= self.depth:
-            self.tree_map[current_count] = random.uniform(0.00001, 100)
+            self._tree_map[current_count] = random.uniform(0.00001, 100)
         else:
-            self.tree_map[current_count] = random.choice(function_set)
+            self._tree_map[current_count] = random.choice(function_set)
 
     def _add_node_in_grow(self, current_count):
         if self._get_max_depth() >= self.depth or random.choice([0, 1]):
-            self.tree_map[current_count] = random.uniform(0.00001, 100)
+            self._tree_map[current_count] = random.uniform(0.00001, 100)
         else:
-            self.tree_map[current_count] = random.choice(function_set)
-
-    # def check_end_ability(self, parent_index):
-    #     if isinstance(self.tree_map[parent_index], TwoVariableFunction):
-    #         pass
+            self._tree_map[current_count] = random.choice(function_set)
