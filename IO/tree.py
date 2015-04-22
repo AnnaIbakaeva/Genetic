@@ -1,4 +1,6 @@
 #-*- coding: utf-8 -*-
+from random import randint
+from functions import Function
 
 
 class Tree(object):
@@ -9,10 +11,23 @@ class Tree(object):
         self.tree_del = self.init_tree
         self.childs_counter = 1  #счетчик количества вершин у поддерева
         self.children = []
+        self.children_map = {}
         self.vertex_counter = 0
         self.index = 0
 
+    @staticmethod
+    def string_tree_map(tree_map):
+        string = ""
+        for key in tree_map.keys():
+            if isinstance(tree_map[key], Function):
+                string += str(key) + ": " + tree_map[key].function_name
+            else:
+                string += str(key) + ": " + str(tree_map[key])
+            string += "; "
+        return string
+
     def find_children(self):
+        self.children_map[0] = self.tree_map[self.index]
         self._find_children([self.index], [])
 
     def _find_children(self, queue, visited):
@@ -27,6 +42,7 @@ class Tree(object):
                     queue.append(v)
                     visited.append(v)
                 self.children[len(self.children)-1].append(self.childs_counter)
+                self.children_map[self.childs_counter] = self.tree_map[v]
                 self.childs_counter += 1
         self._find_children(queue, visited)
 
@@ -42,6 +58,7 @@ class Tree(object):
 
         self.tree_del[self.index] = []
         self._count_vertexes_number()
+        print(Tree.string_tree_map(self.tree_map))
         self._delete_last_empty()
 
     def _count_delete_subtree(self, index, children, deleting):
@@ -53,11 +70,14 @@ class Tree(object):
         return deleting
 
     def _count_vertexes_number(self):
+        temp_map = dict(self.tree_map)
+        self.tree_map = {0: temp_map[0]}
         count = 1
         i = 0
         while i < len(self.tree_del):
             j = 0
             while j < len(self.tree_del[i]):
+                self.tree_map[count] = temp_map[self.tree_del[i][j]]
                 self.tree_del[i][j] = count
                 self.vertex_counter = count
                 count += 1
@@ -72,3 +92,6 @@ class Tree(object):
             else:
                 return
             i -= 1
+
+    def mutate(self):
+        position = randint(1, len(self.init_tree)-1)

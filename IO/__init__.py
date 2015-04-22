@@ -2,6 +2,7 @@
 from tree_creation import TreeCreator
 from functions import Function
 from crossover import Crossover
+from tree import Tree
 
 
 # def create_grow_tree_population(count, creator):
@@ -33,22 +34,13 @@ full_tree = tree_creator2.tree
 #tree_maps = [grow_map, full_map]
 #trees = [grow_tree, full_tree]
 
-#for tree in tree_maps:
 print("GROW TREE")
-# for key in grow_map.keys():
-#     if isinstance(grow_map[key], Function):
-#         print(str(key) + ": " + grow_map[key].function_name)
-#     else:
-#         print(str(key) + ": " + str(grow_map[key]))
+print(Tree.string_tree_map(grow_tree.tree_map))
 print(grow_tree.init_tree)
 
 print("")
 print("FULL TREE")
-# for key in full_map.keys():
-#     if isinstance(full_map[key], Function):
-#         print(str(key) + ": " + full_map[key].function_name)
-#     else:
-#         print(str(key) + ": " + str(full_map[key]))
+print(Tree.string_tree_map(full_tree.tree_map))
 print(full_tree.init_tree)
 print("")
 
@@ -56,7 +48,9 @@ cr = Crossover(full_tree, grow_tree)
 cr.cross()
 print("")
 print("CROSS TREE1")
-print(cr.new_tree1)
+print(cr.new_tree1.init_tree)
+print(Tree.string_tree_map(cr.new_tree1.tree_map))
 print("")
 print("CROSS TREE2")
-print(cr.new_tree2)
+print(cr.new_tree2.init_tree)
+print(Tree.string_tree_map(cr.new_tree2.tree_map))
