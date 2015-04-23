@@ -1,6 +1,5 @@
 #-*- coding: utf-8 -*-
-from tree_creation import TreeCreator
-from functions import Function
+import tree_creation
 from crossover import Crossover
 from tree import Tree
 
@@ -21,11 +20,11 @@ from tree import Tree
 #     return population
 
 
-tree_creator = TreeCreator(5)
+tree_creator = tree_creation.TreeCreator(5)
 tree_creator.create(False)
 grow_tree = tree_creator.tree
 
-tree_creator2 = TreeCreator(5)
+tree_creator2 = tree_creation.TreeCreator(5)
 tree_creator2.create(True)
 full_tree = tree_creator2.tree
 # full_trees = create_full_tree_population(1, tree_creator)
