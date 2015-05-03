@@ -1,7 +1,7 @@
 #-*- coding: utf-8 -*-
 from random import randint, choice, uniform
 from functions import Function, OneVariableFunction, TwoVariableFunction
-from sets import one_variable_function_set, two_variable_function_set, function_set
+from sets import one_variable_function_set, two_variable_function_set, get_terminal, variable_set
 import tree_creation
 
 
@@ -27,6 +27,12 @@ class Tree(object):
                 string += str(key) + ": " + str(tree_map[key])
             string += "; "
         return string
+
+    def check_var_existence(self):
+        for key in self.tree_map.keys():
+            if self.tree_map[key] in variable_set:
+                return True
+        return False
 
     def find_children(self):
         self.children_map[0] = self.tree_map[self.index]
@@ -100,8 +106,11 @@ class Tree(object):
         count = 0
         new_tree.tree_map[0] = tree.tree_map[0]
         while i < index:
-            j = 0
             new_tree.init_tree.append([])
+            if i >= len(tree.tree_del):
+                i += 1
+                continue
+            j = 0
             while j < len(tree.tree_del[i]):
                 new_tree.init_tree[len(new_tree.init_tree) - 1].append(tree.tree_del[i][j])
                 new_tree.tree_map[tree.tree_del[i][j]] = tree.tree_map[tree.tree_del[i][j]]
@@ -167,13 +176,13 @@ class Tree(object):
         if isinstance(self.tree_map[position], Function):
             self.mutate_from_term_to_term()
         else:
-            self.tree_map[position] = uniform(0.00001, 100)
+            self.tree_map[position] = get_terminal() # uniform(-100, 100)
 
     def mutate_from_func_to_term(self):
         position = randint(1, len(self.init_tree)-1)
         self.index = position
         self.delete_subtree()
-        self.tree_map[position] = uniform(0.00001, 100)
+        self.tree_map[position] = get_terminal() # uniform(-100, 100)
 
     def mutate_from_term_to_func(self):
         position = randint(2, len(self.tree_map.keys())-1)

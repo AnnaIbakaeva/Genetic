@@ -2,7 +2,8 @@
 import tree_creation
 from crossover import Crossover
 from tree import Tree
-
+from polish_notation import get_polish_notation, calculate_polish_notation, notation_to_str
+from functions import TwoVariableFunction, Function
 
 # def create_grow_tree_population(count, creator):
 #     population = []
@@ -53,3 +54,15 @@ print("")
 print("CROSS TREE2")
 print(cr.new_tree2.init_tree)
 print(Tree.string_tree_map(cr.new_tree2.tree_map))
+print("")
+print("POLISH NOTATION1")
+notation = get_polish_notation(cr.new_tree1)
+notation_str = notation_to_str(notation)
+print(notation_str)
+print("")
+print("POLISH NOTATION2")
+notation = get_polish_notation(cr.new_tree2)
+notation_str = notation_to_str(notation)
+print(notation_str)
+print("")
+print(calculate_polish_notation(notation, {'x': 2, 'y': 3, 'z': 4}))

@@ -1,3 +1,5 @@
+from math import cos, sin, fabs, exp, log, sqrt
+
 
 class Function(object):
     def __init__(self, function_name):
@@ -12,7 +14,7 @@ class TwoVariableFunction(Function):
         Function.__init__(self, function_name)
 
     def execute(self, var1, var2):
-        self.function_name(var1, var2)
+        return eval(str(var1) + self.function_name + str(var2))
 
 
 class OneVariableFunction(Function):
@@ -20,5 +22,13 @@ class OneVariableFunction(Function):
         Function.__init__(self, function_name)
 
     def execute(self, var1, var2=None):
-        self.function_name(var1)
+        return eval(self.function_name+'('+str(var1)+')')
+
+
+def my_log(x):
+    return log(fabs(x))
+
+
+def my_sqrt(x):
+    return sqrt(fabs(x))
 

@@ -1,5 +1,5 @@
 import random
-from sets import function_set
+from sets import function_set, get_terminal, variable_set
 from functions import TwoVariableFunction, Function
 from tree import Tree
 
@@ -15,13 +15,14 @@ class TreeCreator(object):
     def create(self, full):
         self._tree_map[0] = random.choice(function_set)
         if full:
-            self._full_tree(0, 1)
-            self.tree = Tree(self._tree_struct, self._tree_map)
+            self._full_tree()
         else:
-            self._grow_tree(0, 1)
-            self.tree = Tree(self._tree_struct, self._tree_map)
+            self._grow_tree()
+        self.tree = Tree(self._tree_struct, self._tree_map)
+        if not self.tree.check_var_existence():
+            self._add_variable()
 
-    def _full_tree(self, current_index, current_count):
+    def _full_tree(self, current_index=0, current_count=1):
         self._tree_struct.append([current_count])
         self._add_node(current_count)
         current_count += 1
@@ -33,7 +34,7 @@ class TreeCreator(object):
             current_index += 1
             self._full_tree(current_index, current_count)
 
-    def _grow_tree(self, current_index, current_count):
+    def _grow_tree(self, current_index=0, current_count=1):
         if isinstance(self._tree_map[current_index], Function):
             self._tree_struct.append([current_count])
             self._add_node(current_count)
@@ -85,12 +86,20 @@ class TreeCreator(object):
 
     def _add_node(self, current_count):
         if self._get_max_depth() >= self.depth:
-            self._tree_map[current_count] = random.uniform(0.00001, 100)
+            self._tree_map[current_count] = get_terminal()
         else:
             self._tree_map[current_count] = random.choice(function_set)
 
     def _add_node_in_grow(self, current_count):
         if self._get_max_depth() >= self.depth or random.choice([0, 1]):
-            self._tree_map[current_count] = random.uniform(0.00001, 100)
+            self._tree_map[current_count] = get_terminal()
         else:
             self._tree_map[current_count] = random.choice(function_set)
+
+    def _add_variable(self):
+        terms = []
+        for key in self._tree_map.keys():
+            if not isinstance(self._tree_map[key], Function):
+                terms.append(key)
+        position = random.choice(terms)
+        self._tree_map[position] = random.choice(variable_set)
