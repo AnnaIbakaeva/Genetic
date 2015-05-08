@@ -31,7 +31,7 @@ def _create_polish_notation(tree, tree_map, current_vertex, visited, notation):
         return notation
 
 
-def get_value(term, var_values):
+def _get_value(term, var_values):
     if term in variable_set:
         return var_values[term]
     return term
@@ -44,13 +44,13 @@ def calculate_polish_notation(notation, var_values):
         if isinstance(notation[i], Function):
             func = notation[i]
             if isinstance(func, TwoVariableFunction):
-                o1 = get_value(operands.pop(), var_values)
-                o2 = get_value(operands.pop(), var_values)
+                o1 = _get_value(operands.pop(), var_values)
+                o2 = _get_value(operands.pop(), var_values)
                 operands.append(func.execute(o1, o2))
             else:
-                result = func.execute(get_value(operands.pop(), var_values))
+                result = func.execute(_get_value(operands.pop(), var_values))
                 operands.append(result)
         else:
             operands.append(notation[i])
         i -= 1
-    return operands
+    return operands[0]

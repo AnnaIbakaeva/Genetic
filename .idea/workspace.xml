@@ -12,7 +12,7 @@
   </component>
   <component name="ChangesViewManager" flattened_view="true" show_ignored="false" />
   <component name="CoverageDataManager">
-    <SUITE FILE_PATH="coverage/GeneticProgramming$__init__.coverage" NAME="__init__ Coverage Results" MODIFIED="1430655071470" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/IO" />
+    <SUITE FILE_PATH="coverage/GeneticProgramming$__init__.coverage" NAME="__init__ Coverage Results" MODIFIED="1431099406988" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/IO" />
     <SUITE FILE_PATH="coverage/GeneticProgramming$tree_creation.coverage" NAME="tree_creation Coverage Results" MODIFIED="1428926182012" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/IO" />
   </component>
   <component name="CreatePatchCommitExecutor">
@@ -30,21 +30,18 @@
       <file leaf-file-name="__init__.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/IO/__init__.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="63" column="44" selection-start="1784" selection-end="1784" vertical-scroll-proportion="0.0" vertical-offset="869" max-vertical-offset="1241">
+            <state line="52" column="11" selection-start="1354" selection-end="1354" vertical-scroll-proportion="0.0" vertical-offset="563" max-vertical-offset="1224">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="polish_notation.py" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/IO/polish_notation.py">
+      <file leaf-file-name="reproduction.py" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/IO/reproduction.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="36" column="15" selection-start="1030" selection-end="1030" vertical-scroll-proportion="0.80473375" vertical-offset="0" max-vertical-offset="714">
+            <state line="33" column="49" selection-start="1192" selection-end="1192" vertical-scroll-proportion="0.6315789" vertical-offset="357" max-vertical-offset="782">
               <folding>
-                <element signature="e#0#51#0" expanded="true" />
-                <element signature="e#119#336#0" expanded="false" />
-                <element signature="e#374#502#0" expanded="false" />
-                <element signature="e#589#918#0" expanded="false" />
+                <element signature="e#0#22#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -53,7 +50,7 @@
       <file leaf-file-name="functions.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/IO/functions.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="16" column="63" selection-start="429" selection-end="429" vertical-scroll-proportion="0.0" vertical-offset="102" max-vertical-offset="680">
+            <state line="51" column="0" selection-start="1110" selection-end="1110" vertical-scroll-proportion="0.0" vertical-offset="272" max-vertical-offset="969">
               <folding />
             </state>
           </provider>
@@ -62,16 +59,7 @@
       <file leaf-file-name="tree.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/IO/tree.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="17" column="22" selection-start="622" selection-end="622" vertical-scroll-proportion="0.0" vertical-offset="289" max-vertical-offset="3485">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="tree_creation.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/IO/tree_creation.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="18" column="13" selection-start="454" selection-end="454" vertical-scroll-proportion="0.0" vertical-offset="306" max-vertical-offset="1870">
+            <state line="17" column="22" selection-start="622" selection-end="622" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3434">
               <folding />
             </state>
           </provider>
@@ -80,7 +68,7 @@
       <file leaf-file-name="sets.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/IO/sets.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="18" column="33" selection-start="954" selection-end="954" vertical-scroll-proportion="0.0" vertical-offset="138" max-vertical-offset="476">
+            <state line="3" column="96" selection-start="204" selection-end="204" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="510">
               <folding />
             </state>
           </provider>
@@ -97,15 +85,15 @@
     <option name="changedFiles">
       <list>
         <option value="$PROJECT_DIR$/IO/vertex.py" />
-        <option value="$PROJECT_DIR$/IO/reproduction.py" />
         <option value="$PROJECT_DIR$/IO/mutation.py" />
         <option value="$PROJECT_DIR$/IO/crossover.py" />
-        <option value="$PROJECT_DIR$/IO/functions.py" />
-        <option value="$PROJECT_DIR$/IO/sets.py" />
         <option value="$PROJECT_DIR$/IO/tree_creation.py" />
         <option value="$PROJECT_DIR$/IO/tree.py" />
-        <option value="$PROJECT_DIR$/IO/__init__.py" />
         <option value="$PROJECT_DIR$/IO/polish_notation.py" />
+        <option value="$PROJECT_DIR$/IO/__init__.py" />
+        <option value="$PROJECT_DIR$/IO/sets.py" />
+        <option value="$PROJECT_DIR$/IO/functions.py" />
+        <option value="$PROJECT_DIR$/IO/reproduction.py" />
       </list>
     </option>
   </component>
@@ -141,6 +129,7 @@
       <sortByType />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -175,7 +164,6 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -317,6 +305,9 @@
       <option name="PARAMETERS" value="" />
       <method />
     </configuration>
+    <configuration default="true" type="JavascriptDebugType" factoryName="JavaScript Debug" singleton="true">
+      <method />
+    </configuration>
     <configuration default="true" type="tests" factoryName="Unittests">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -338,9 +329,6 @@
       <option name="PUREUNITTEST" value="true" />
       <option name="PARAMS" value="" />
       <option name="USE_PARAM" value="false" />
-      <method />
-    </configuration>
-    <configuration default="true" type="JavascriptDebugType" factoryName="JavaScript Debug" singleton="true">
       <method />
     </configuration>
     <configuration default="true" type="tests" factoryName="Doctests">
@@ -429,19 +417,19 @@
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.16163142" sideWeight="0.49888143" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.168429" sideWeight="0.49888143" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.35457516" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2265861" sideWeight="0.50111854" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.40522876" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.42973855" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
     </layout>
     <layout-to-restore>
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -459,9 +447,9 @@
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.1344411" sideWeight="0.49888143" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.40359476" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout-to-restore>
   </component>
   <component name="Vcs.Log.UiProperties">
@@ -715,11 +703,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/IO/reproduction.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="14" column="39" selection-start="400" selection-end="400" vertical-scroll-proportion="0.5738162" vertical-offset="32" max-vertical-offset="493" />
-      </provider>
-    </entry>
     <entry file="file://D:/Puthon27/Lib/traceback.py">
       <provider selected="true" editor-type-id="text-editor">
         <state line="66" column="0" selection-start="2342" selection-end="2342" vertical-scroll-proportion="0.78070176" vertical-offset="821" max-vertical-offset="5491" />
@@ -730,23 +713,28 @@
         <state line="43" column="13" selection-start="2000" selection-end="2000" vertical-scroll-proportion="0.5976331" vertical-offset="495" max-vertical-offset="833" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/IO/functions.py">
+    <entry file="file://$PROJECT_DIR$/IO/tree_creation.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="16" column="63" selection-start="429" selection-end="429" vertical-scroll-proportion="0.0" vertical-offset="102" max-vertical-offset="680">
+        <state line="18" column="13" selection-start="454" selection-end="454" vertical-scroll-proportion="-0.087030716" vertical-offset="306" max-vertical-offset="1819" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/IO/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="52" column="11" selection-start="1354" selection-end="1354" vertical-scroll-proportion="0.0" vertical-offset="563" max-vertical-offset="1224">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/IO/tree_creation.py">
+    <entry file="file://$PROJECT_DIR$/IO/polish_notation.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="18" column="13" selection-start="454" selection-end="454" vertical-scroll-proportion="0.0" vertical-offset="869" max-vertical-offset="1207">
+        <state line="53" column="36" selection-start="1640" selection-end="1640" vertical-scroll-proportion="0.5263158" vertical-offset="714" max-vertical-offset="1037">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/IO/sets.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="18" column="33" selection-start="954" selection-end="954" vertical-scroll-proportion="0.0" vertical-offset="138" max-vertical-offset="476">
+        <state line="3" column="96" selection-start="204" selection-end="204" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="510">
           <folding />
         </state>
       </provider>
@@ -758,21 +746,18 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/IO/__init__.py">
+    <entry file="file://$PROJECT_DIR$/IO/functions.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="63" column="44" selection-start="1784" selection-end="1784" vertical-scroll-proportion="0.0" vertical-offset="869" max-vertical-offset="1241">
+        <state line="51" column="0" selection-start="1110" selection-end="1110" vertical-scroll-proportion="0.0" vertical-offset="272" max-vertical-offset="969">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/IO/polish_notation.py">
+    <entry file="file://$PROJECT_DIR$/IO/reproduction.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="36" column="15" selection-start="1030" selection-end="1030" vertical-scroll-proportion="0.80473375" vertical-offset="0" max-vertical-offset="714">
+        <state line="33" column="49" selection-start="1192" selection-end="1192" vertical-scroll-proportion="0.6315789" vertical-offset="357" max-vertical-offset="782">
           <folding>
-            <element signature="e#0#51#0" expanded="true" />
-            <element signature="e#119#336#0" expanded="false" />
-            <element signature="e#374#502#0" expanded="false" />
-            <element signature="e#589#918#0" expanded="false" />
+            <element signature="e#0#22#0" expanded="true" />
           </folding>
         </state>
       </provider>

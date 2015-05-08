@@ -1,7 +1,7 @@
 from functions import OneVariableFunction, TwoVariableFunction
 from random import randint, uniform, choice
 
-function_set = [OneVariableFunction('sin'), OneVariableFunction('cos'), OneVariableFunction('exp'),
+function_set = [OneVariableFunction('sin'), OneVariableFunction('cos'), OneVariableFunction('my_exp'),
                 OneVariableFunction('my_log'), OneVariableFunction('fabs'), OneVariableFunction('my_sqrt'),
                 TwoVariableFunction('+'), TwoVariableFunction('-'), TwoVariableFunction('/'), TwoVariableFunction('*')]
 
@@ -12,6 +12,9 @@ two_variable_function_set = [TwoVariableFunction('+'), TwoVariableFunction('-'),
                              TwoVariableFunction('*')]
 
 variable_set = ['x', 'y', 'z']
+
+variable_values = {'x': 2, 'y': 3, 'z': 4}
+
 
 def get_terminal():
     var = randint(0, 1)
