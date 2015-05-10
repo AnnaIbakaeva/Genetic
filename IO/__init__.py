@@ -48,6 +48,12 @@ for tree in population:
     print(tree.init_tree)
     print("")
 
+print("MUTATION")
+tree = population[0]
+tree.mutate_from_term_to_func()
+print(Tree.string_tree_map(tree.tree_map))
+print(tree.init_tree)
+
 # cr = Crossover(full_tree, grow_tree)
 # cr.cross()
 # print("")

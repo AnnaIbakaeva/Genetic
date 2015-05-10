@@ -29,10 +29,8 @@ class Reproductor(object):
         return result
 
     def select(self):
-        print("average ", self._average)
         for individual in self._init_population:
             value = self._get_fitness(individual)
-            print("value ", value)
             if value < self._average:
                 self._selected_population.append(individual)
                 if value / self._average < 0.5:

@@ -62,7 +62,6 @@ class Tree(object):
         deleting.sort(None, None, True)
         for ver in deleting:
             del self.tree_del[ver]
-
         self.tree_del[self.index] = []
         self._count_vertexes_number()
         self._delete_last_empty()
@@ -118,7 +117,6 @@ class Tree(object):
                 j += 1
             i += 1
         count += 1
-
         new_tree.tree_map[index] = children_map[0]
 
         save_counts = []
@@ -168,32 +166,38 @@ class Tree(object):
         position = randint(0, len(self.init_tree)-1)
         if isinstance(self.tree_map[position], OneVariableFunction):
             self.tree_map[position] = choice(one_variable_function_set)
-        else:
+        elif isinstance(self.tree_map[position], TwoVariableFunction):
             self.tree_map[position] = choice(two_variable_function_set)
+        else:
+            self.mutate_from_func_to_func()
 
     def mutate_from_term_to_term(self):
         position = randint(2, len(self.tree_map.keys())-1)
         if isinstance(self.tree_map[position], Function):
             self.mutate_from_term_to_term()
         else:
-            self.tree_map[position] = get_terminal() # uniform(-100, 100)
+            self.tree_map[position] = get_terminal()
 
     def mutate_from_func_to_term(self):
         position = randint(1, len(self.init_tree)-1)
         self.index = position
         self.delete_subtree()
-        self.tree_map[position] = get_terminal() # uniform(-100, 100)
+        self.tree_map[position] = get_terminal()
+        self.init_tree = self.tree_del
 
     def mutate_from_term_to_func(self):
         position = randint(2, len(self.tree_map.keys())-1)
         if isinstance(self.tree_map[position], Function):
             self.mutate_from_term_to_func()
         else:
-            creator = tree_creation.TreeCreator(4)
+            creator = tree_creation.TreeCreator(3)
             creator.create(False)
             child = creator.tree
             self.tree_map[position] = child.tree_map[0]
             self.index = position
             self.tree_del = self.init_tree
-            self.init_tree = Tree.add_child_to_tree(self, child.init_tree, child.tree_map, Tree([], {}))
+            t = Tree.add_child_to_tree(self, child.init_tree, child.tree_map, Tree([], {}))
+            self.tree_del = t.tree_del
+            self.init_tree = t.init_tree
+            self.tree_map = t.tree_map
 
