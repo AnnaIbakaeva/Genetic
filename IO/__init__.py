@@ -4,30 +4,12 @@ from crossover import Crossover
 from tree import Tree
 from polish_notation import get_polish_notation, calculate_polish_notation, notation_to_str
 from functions import TwoVariableFunction, Function
-from sets import variable_values
 from reproduction import Reproductor
-
-# tree_creator = tree_creation.TreeCreator(5)
-# tree_creator.create(False)
-# grow_tree = tree_creator.tree
-
-# tree_creator2 = tree_creation.TreeCreator(5)
-# tree_creator2.create(True)
-# full_tree = tree_creator2.tree
-#
-# print("GROW TREE")
-# print(Tree.string_tree_map(grow_tree.tree_map))
-# print(grow_tree.init_tree)
-# print("")
-#
-# print("FULL TREE")
-# print(Tree.string_tree_map(full_tree.tree_map))
-# print(full_tree.init_tree)
-# print("")
+from random import randint
 
 trees = []
 i = 0
-while i < 10:
+while i < 5:
     tree_creator = tree_creation.TreeCreator(5)
     if i % 2 == 0:
         tree_creator.create(False)
@@ -40,19 +22,60 @@ while i < 10:
     print("")
     i += 1
 
-reproductor = Reproductor(trees, 20)
-population = reproductor.select()
-print("REPRODUCTOR")
-for tree in population:
-    print(Tree.string_tree_map(tree.tree_map))
-    print(tree.init_tree)
-    print("")
+result = False
+while not result:
+    reproductor = Reproductor(trees, 20)
+    population = list(reproductor.select())
+    print("REPRODUCTOR")
+    for tree in population:
+        print(Tree.string_tree_map(tree.tree_map))
+        print(tree.init_tree)
+        print("")
 
-print("MUTATION")
-tree = population[0]
-tree.mutate_from_term_to_func()
-print(Tree.string_tree_map(tree.tree_map))
-print(tree.init_tree)
+    i = 0
+    cross_trees = []
+    while i+1 < len(population):
+        crossover = Crossover(population[i], population[i+1])
+        crossover.cross()
+        print("CROSSOVER")
+        print(Tree.string_tree_map(crossover.new_tree1.tree_map))
+        print(crossover.new_tree1.init_tree)
+        print("")
+        cross_trees.append(crossover.new_tree1)
+        print(Tree.string_tree_map(crossover.new_tree2.tree_map))
+        print(crossover.new_tree2.init_tree)
+        print("")
+        cross_trees.append(crossover.new_tree2)
+        i += 1
+
+    # for tree in cross_trees:
+    #     value = randint(1, 10)
+    #     if value == 1:
+    #         tree.mutate_from_term_to_term()
+    #     else:
+    #         value = randint(1, 50)
+    #         if value == 1:
+    #             tree.mutate_from_func_to_func()
+    #         else:
+    #             value = randint(1, 100)
+    #             if value == 1:
+    #                 tree.mutate_from_func_to_term()
+    #             else:
+    #                 value = randint(1, 150)
+    #                 if value == 1:
+    #                     tree.mutate_from_term_to_func()
+
+    for tree in cross_trees:
+        if reproductor.get_fitness(tree) < 0.00001:
+            print("RESULT")
+            print(Tree.string_tree_map(tree.tree_map))
+            print(tree.init_tree)
+            result = True
+
+    trees = list(cross_trees)
+    if len(trees) == 0:
+        print("Empty population")
+        result = True
 
 # cr = Crossover(full_tree, grow_tree)
 # cr.cross()

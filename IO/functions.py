@@ -18,7 +18,7 @@ class TwoVariableFunction(Function):
             var2 += 0.000001
         try:
             return eval(str(var1) + self.function_name + str(var2))
-        except:
+        except OverflowError:
             print("function: ", self.function_name, var1, var2)
 
 
@@ -30,7 +30,7 @@ class OneVariableFunction(Function):
         try:
             result = eval(self.function_name+'('+str(var1)+')')
             return result
-        except:
+        except OverflowError:
             print("function: ", self.function_name, var1)
 
 

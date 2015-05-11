@@ -1,11 +1,10 @@
 import random
-from sets import function_set, get_terminal, variable_set
+from sets import function_set, variable_set, get_terminal
 from functions import TwoVariableFunction, Function
 from tree import Tree
 
 
 class TreeCreator(object):
-    tree = None
 
     def __init__(self, depth):
         self.depth = depth

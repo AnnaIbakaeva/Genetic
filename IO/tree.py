@@ -56,13 +56,15 @@ class Tree(object):
 
     def delete_subtree(self):
         deleting = []
-        for v in self.init_tree[self.index]:
-            if v < len(self.init_tree):
-                deleting = self._count_delete_subtree(v, self.init_tree[v], deleting)
-        deleting.sort(None, None, True)
-        for ver in deleting:
-            del self.tree_del[ver]
-        self.tree_del[self.index] = []
+        if self.index < len(self.init_tree):
+            for v in self.init_tree[self.index]:
+                if v < len(self.init_tree):
+                    deleting = self._count_delete_subtree(v, self.init_tree[v], deleting)
+            deleting.sort(None, None, True)
+            for ver in deleting:
+                del self.tree_map[ver]
+                del self.tree_del[ver]
+            self.tree_del[self.index] = []
         self._count_vertexes_number()
         self._delete_last_empty()
 
@@ -137,7 +139,10 @@ class Tree(object):
             if len(save_counts2) > 0:
                 continue
             i = index + 1
-            m = min(save_counts) - new_vertex_counter
+            if len(save_counts) == 0:
+                m = i
+            else:
+                m = min(save_counts) - new_vertex_counter
             while i < m and i <= tree.vertex_counter:
                 new_tree.init_tree.append([])
                 if i < len(tree.tree_del):

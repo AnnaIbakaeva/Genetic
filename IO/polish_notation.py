@@ -43,13 +43,17 @@ def calculate_polish_notation(notation, var_values):
     while i >= 0:
         if isinstance(notation[i], Function):
             func = notation[i]
-            if isinstance(func, TwoVariableFunction):
-                o1 = _get_value(operands.pop(), var_values)
-                o2 = _get_value(operands.pop(), var_values)
-                operands.append(func.execute(o1, o2))
-            else:
-                result = func.execute(_get_value(operands.pop(), var_values))
-                operands.append(result)
+            try:
+                if isinstance(func, TwoVariableFunction):
+                    o1 = _get_value(operands.pop(), var_values)
+                    o2 = _get_value(operands.pop(), var_values)
+                    operands.append(func.execute(o1, o2))
+                else:
+                    result = func.execute(_get_value(operands.pop(), var_values))
+                    operands.append(result)
+            except:
+                print('ERROR')
+                print(notation_to_str(notation))
         else:
             operands.append(notation[i])
         i -= 1
