@@ -13,8 +13,14 @@ class Crossover(object):
         self.new_tree2 = Tree([], {})
 
     def cross(self):
-        index1 = randint(1, len(self._parent1.init_tree)-1)
-        index2 = randint(1, len(self._parent2.init_tree)-1)
+        if len(self._parent1.init_tree) <= 2:
+            index1 = 1
+        else:
+            index1 = randint(1, len(self._parent1.init_tree)-1)
+        if len(self._parent2.init_tree) <= 2:
+            index2 = 1
+        else:
+            index2 = randint(1, len(self._parent2.init_tree)-1)
         if (isinstance(self._parent1.tree_map[index1], TwoVariableFunction) and
                 isinstance(self._parent2.tree_map[index2], TwoVariableFunction)) or \
                 (isinstance(self._parent1.tree_map[index1], OneVariableFunction)
@@ -29,7 +35,11 @@ class Crossover(object):
             print("")
 
             self._parent1.find_children()
+            print("child1: ", self._parent1.children)
+            print(Tree.string_tree_map(self._parent1.children_map))
             self._parent2.find_children()
+            print("child2: ", self._parent2.children)
+            print(Tree.string_tree_map(self._parent2.children_map))
 
             self._parent1.delete_subtree()
             print("del1: ", self._parent1.tree_del)
@@ -38,9 +48,7 @@ class Crossover(object):
             print("del2: ", self._parent2.tree_del)
             print(Tree.string_tree_map(self._parent2.tree_map))
 
-            self.new_tree1 = Tree.add_child_to_tree(self._parent1, self._parent2.children, self._parent2.children_map,
-                                                    self.new_tree1)
-            self.new_tree2 = Tree.add_child_to_tree(self._parent2, self._parent1.children, self._parent1.children_map,
-                                                    self.new_tree2)
+            self.new_tree1 = Tree.add_child_to_tree(self._parent1, self._parent2.children, self._parent2.children_map)
+            self.new_tree2 = Tree.add_child_to_tree(self._parent2, self._parent1.children, self._parent1.children_map)
         else:
             self.cross()

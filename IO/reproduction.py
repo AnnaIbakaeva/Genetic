@@ -2,12 +2,13 @@ import polish_notation
 from math import isinf, fabs
 from sets import variable_values
 from tree import Tree
+import copy
 
 class Reproductor(object):
 
     def __init__(self, population, target):
         self.sum_fitness = 0
-        self._init_population = population
+        self._init_population = list(population)
         self._selected_population = []
         self._target = target
         self._average = 0
@@ -33,12 +34,13 @@ class Reproductor(object):
             print("EXCEPT")
             print(Tree.string_tree_map(individual.tree_map))
             print(individual.init_tree)
+            exit()
 
     def select(self):
         for individual in self._init_population:
             value = self.get_fitness(individual)
             if value < self._average:
-                self._selected_population.append(individual)
+                self._selected_population.append(copy.deepcopy(individual))
                 if value / self._average < 0.5:
-                    self._selected_population.append(individual)
+                    self._selected_population.append(copy.deepcopy(individual))
         return self._selected_population

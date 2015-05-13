@@ -5,7 +5,7 @@ from tree import Tree
 from polish_notation import get_polish_notation, calculate_polish_notation, notation_to_str
 from functions import TwoVariableFunction, Function
 from reproduction import Reproductor
-from random import randint
+from random import shuffle
 
 trees = []
 i = 0
@@ -16,7 +16,7 @@ while i < 5:
     else:
         tree_creator.create(True)
     tree = tree_creator.tree
-    trees.append(tree)
+    trees.append(Tree(tree.init_tree, tree.tree_map))
     print(Tree.string_tree_map(tree.tree_map))
     print(tree.init_tree)
     print("")
@@ -24,14 +24,17 @@ while i < 5:
 
 result = False
 while not result:
+    print("************************************************************************************************************"
+          "************************************************************************************************************")
     reproductor = Reproductor(trees, 20)
-    population = list(reproductor.select())
+    population = reproductor.select()
     print("REPRODUCTOR")
     for tree in population:
         print(Tree.string_tree_map(tree.tree_map))
         print(tree.init_tree)
         print("")
 
+    shuffle(population)
     i = 0
     cross_trees = []
     while i+1 < len(population):
@@ -46,7 +49,7 @@ while not result:
         print(crossover.new_tree2.init_tree)
         print("")
         cross_trees.append(crossover.new_tree2)
-        i += 1
+        i += 2
 
     # for tree in cross_trees:
     #     value = randint(1, 10)
