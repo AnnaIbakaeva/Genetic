@@ -5,101 +5,116 @@ from tree import Tree
 from polish_notation import get_polish_notation, calculate_polish_notation, notation_to_str
 from functions import TwoVariableFunction, Function
 from reproduction import Reproductor
-from random import shuffle
+from random import choice, randint
+from sets import variable_values_set, target_values
+from copy import deepcopy
 
-trees = []
-i = 0
-while i < 5:
-    tree_creator = tree_creation.TreeCreator(5)
-    if i % 2 == 0:
-        tree_creator.create(False)
-    else:
-        tree_creator.create(True)
-    tree = tree_creator.tree
-    trees.append(Tree(tree.init_tree, tree.tree_map))
-    print(Tree.string_tree_map(tree.tree_map))
-    print(tree.init_tree)
-    print("")
-    i += 1
 
-result = False
-while not result:
-    print("************************************************************************************************************"
-          "************************************************************************************************************")
-    reproductor = Reproductor(trees, 20)
-    population = reproductor.select()
-    print("REPRODUCTOR")
-    for tree in population:
-        print(Tree.string_tree_map(tree.tree_map))
-        print(tree.init_tree)
-        print("")
-
-    shuffle(population)
+def generate_init_population(population_number):
+    init_trees = []
     i = 0
-    cross_trees = []
-    while i+1 < len(population):
-        crossover = Crossover(population[i], population[i+1])
-        crossover.cross()
-        print("CROSSOVER")
-        print(Tree.string_tree_map(crossover.new_tree1.tree_map))
-        print(crossover.new_tree1.init_tree)
+    while i < population_number:
+        tree_creator = tree_creation.TreeCreator((i+100)/100)
+        if i % 2 == 0:
+            tree_creator.create(False)
+        else:
+            tree_creator.create(True)
+        t = tree_creator.tree
+        init_trees.append(Tree(t.init_tree, t.tree_map))
+        print(Tree.string_tree_map(t.tree_map))
+        print(t.init_tree)
         print("")
-        cross_trees.append(crossover.new_tree1)
-        print(Tree.string_tree_map(crossover.new_tree2.tree_map))
-        print(crossover.new_tree2.init_tree)
-        print("")
-        cross_trees.append(crossover.new_tree2)
-        i += 2
+        i += 1
+    return list(init_trees)
 
-    # for tree in cross_trees:
-    #     value = randint(1, 10)
-    #     if value == 1:
-    #         tree.mutate_from_term_to_term()
-    #     else:
-    #         value = randint(1, 50)
-    #         if value == 1:
-    #             tree.mutate_from_func_to_func()
-    #         else:
-    #             value = randint(1, 100)
-    #             if value == 1:
-    #                 tree.mutate_from_func_to_term()
-    #             else:
-    #                 value = randint(1, 150)
-    #                 if value == 1:
-    #                     tree.mutate_from_term_to_func()
 
-    for tree in cross_trees:
-        if reproductor.get_fitness(tree) < 0.00001:
+def select_best_individuals(trees):
+    reproductor = Reproductor(trees)
+    return list(reproductor.select())
+
+
+def cross_trees(population, population_number):
+    i = 0
+    result_trees = []
+    while i < population_number-len(population):
+        parent1 = choice(population)
+        parent2 = choice(population)
+        j = randint(1, 10)
+        if j <= 9:
+            crossover = Crossover(parent1, parent2)
+            if crossover.cross():
+                result_trees.append(crossover.new_tree1)
+                result_trees.append(crossover.new_tree2)
+                i += 1
+    return result_trees
+
+
+def mutate_trees(population):
+    for individual in population:
+        value = randint(1, 100)
+        if value == 1:
+            individual.mutate_from_term_to_term()
+        else:
+            value = randint(1, 100)
+            if value == 1:
+                individual.mutate_from_func_to_func()
+            else:
+                value = randint(1, 1000)
+                if value == 1:
+                    individual.mutate_from_func_to_term()
+                else:
+                    value = randint(1, 1000)
+                    if value == 1:
+                        individual.mutate_from_term_to_func()
+    return population
+
+
+def check_on_result(trees):
+    reproductor = Reproductor(trees)
+    result = False
+    for tree in trees:
+        if len(tree.tree_map) == 0:
+            continue
+        i = 0
+        fitness_result = 0
+        while i < len(target_values):
+            fitness_result += reproductor.get_fitness(tree, target_values[i], variable_values_set[i])
+            i += 1
+        print("fitness_result ", fitness_result)
+        if fitness_result < 0.00001:
             print("RESULT")
             print(Tree.string_tree_map(tree.tree_map))
             print(tree.init_tree)
             result = True
+    return result
 
-    trees = list(cross_trees)
-    if len(trees) == 0:
+
+population_number = 500
+init_population = generate_init_population(population_number)
+result = False
+counter = 0
+while not result and counter < 500:
+    print("************************************************************************************************************"
+          "************************************************************************************************************")
+    print(counter)
+    best_individuals = deepcopy(select_best_individuals(init_population))
+
+    if len(best_individuals) == 0:
+        print("Reproduction empty")
+        result = True
+        continue
+
+    children = deepcopy(cross_trees(best_individuals, population_number))
+    all_trees = best_individuals + children
+
+    all_trees = deepcopy(mutate_trees(all_trees))
+
+    result = check_on_result(all_trees)
+
+    init_population = deepcopy(all_trees)
+    if len(init_population) == 0:
         print("Empty population")
         result = True
+    counter += 1
 
-# cr = Crossover(full_tree, grow_tree)
-# cr.cross()
-# print("")
-# print("CROSS TREE1")
-# print(cr.new_tree1.init_tree)
-# print(Tree.string_tree_map(cr.new_tree1.tree_map))
-# print("")
-# print("CROSS TREE2")
-# print(cr.new_tree2.init_tree)
-# print(Tree.string_tree_map(cr.new_tree2.tree_map))
-# print("")
-
-# print("POLISH NOTATION1")
-# notation = get_polish_notation(cr.new_tree1)
-# notation_str = notation_to_str(notation)
-# print(notation_str)
-# print("")
-# print("POLISH NOTATION2")
-# notation = get_polish_notation(cr.new_tree2)
-# notation_str = notation_to_str(notation)
-# print(notation_str)
-# print("")
-# print(calculate_polish_notation(notation, variable_values))
+print("End")

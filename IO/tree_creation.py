@@ -51,21 +51,8 @@ class TreeCreator(object):
             if self._get_current_depth() < self.depth:
                 self._grow_tree(current_index, current_count)
 
-    def _max_depth(self, current_depth, index, visited, depths):
-        visited.append(index)
-        try:
-            for vertex in self._tree_struct[index]:
-                if not (vertex in visited):
-                    self._max_depth(current_depth+1, vertex, visited, depths)
-            if len(depths) == 0:
-                return 0
-            return max(depths)
-        except IndexError:
-            depths.append(current_depth)
-            return
-
     def _get_max_depth(self):
-        return self._max_depth(0, 0, [], [])
+        return Tree.get_depth(self._tree_struct, 0, 0, [], [])
 
     def _min_depth(self, current_depth, index, visited, depths):
         visited.append(index)

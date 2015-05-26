@@ -35,17 +35,30 @@ class OneVariableFunction(Function):
 
 
 def my_log(x):
-    if x == 0:
-        x += 0.000001
-    return log(fabs(x))
+    try:
+        if x == 0:
+            x += 0.000001
+        return log(fabs(x))
+    except:
+        print("log except x ", x)
+        exit()
 
 
 def my_sqrt(x):
-    return sqrt(fabs(x))
+    try:
+        return sqrt(fabs(x))
+    except:
+        print("sqrt except x ", x)
+        exit()
 
 
 def my_exp(x):
-    if x > 700:
-        x = 700
-    return exp(x)
+    try:
+        if x > 700:
+            x = 700
+        result = exp(x)
+        return result
+    except:
+        print("exp except, x: ", x)
+        exit()
 

@@ -5,15 +5,22 @@ function_set = [OneVariableFunction('sin'), OneVariableFunction('cos'), OneVaria
                 OneVariableFunction('my_log'), OneVariableFunction('fabs'), OneVariableFunction('my_sqrt'),
                 TwoVariableFunction('+'), TwoVariableFunction('-'), TwoVariableFunction('/'), TwoVariableFunction('*')]
 
-one_variable_function_set = [OneVariableFunction('sin'), OneVariableFunction('cos'), OneVariableFunction('exp'),
-                             OneVariableFunction('log'), OneVariableFunction('abs'), OneVariableFunction('sqrt')]
+one_variable_function_set = [OneVariableFunction('sin'), OneVariableFunction('cos'), OneVariableFunction('my_exp'),
+                             OneVariableFunction('my_log'), OneVariableFunction('fabs'), OneVariableFunction('my_sqrt')]
 
 two_variable_function_set = [TwoVariableFunction('+'), TwoVariableFunction('-'), TwoVariableFunction('/'),
                              TwoVariableFunction('*')]
 
 variable_set = ['x', 'y', 'z']
 
-variable_values = {'x': 2, 'y': 3, 'z': 4}
+variable_values_set = [
+    {'x': 0, 'y': 0, 'z': 2},
+    {'x': 0, 'y': 1, 'z': 2},
+    {'x': 1, 'y': 1, 'z': 3},
+    {'x': 1, 'y': 0, 'z': 3}
+]
+
+target_values = [5.43656365691809, 12.611614377411055, 11.94586961052814, 5.14957709864671]
 
 
 def get_terminal():

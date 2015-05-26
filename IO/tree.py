@@ -44,8 +44,8 @@ class Tree(object):
             return
         vertex = queue[0]
         del queue[0]
+        self.children.append([])
         if vertex < len(self.init_tree):
-            self.children.append([])
             for v in self.init_tree[vertex]:
                 if v not in visited:
                     queue.append(v)
@@ -56,7 +56,6 @@ class Tree(object):
         self._find_children(queue, visited)
 
     def delete_subtree(self):
-        print("tree: ", self.init_tree)
         deleting = []
         if self.index < len(self.init_tree):
             for v in self.init_tree[self.index]:
@@ -121,8 +120,6 @@ class Tree(object):
         count += 1
         new_tree.tree_map[index] = children_map[0]
 
-        print("new tree0: ", new_tree.init_tree, count)
-
         save_counts = []
         save_counts2 = []
         last_m = len(tree.tree_del)
@@ -140,6 +137,10 @@ class Tree(object):
                     save_counts.append(count)
                     count += 1
             if len(save_counts2) > 0:
+                if children.index(vs) == len(children)-1:
+                    new_tree.init_tree.append([])
+                    save_counts2.remove(len(new_tree.init_tree)-1)
+                    save_counts2 = list(save_counts)
                 continue
             i = index + 1
             if len(save_counts) == 0:
@@ -156,13 +157,9 @@ class Tree(object):
                     last_m = i
                 i += 1
             index = m - 1
-            #last_m = min(save_counts)
             save_counts2 = list(save_counts)
             save_counts = []
         last_m += 1
-        print("last_m: ", last_m)
-        print("new_tree: ", new_tree.init_tree)
-        print("save_counts2 ", save_counts2)
         while last_m < len(tree.tree_del):
             new_tree.init_tree.append([])
             last_position = len(new_tree.init_tree)-1
@@ -174,9 +171,14 @@ class Tree(object):
                 new_tree.tree_map[count] = tree.tree_map[v]
                 count += 1
             last_m += 1
+
+        if Tree.get_depth(new_tree.init_tree, 0, 0, [], []) > 20:
+            return Tree([], {})
         return new_tree
 
     def mutate_from_func_to_func(self):
+        if len(self.init_tree) <= 1:
+            return
         position = randint(0, len(self.init_tree)-1)
         if isinstance(self.tree_map[position], OneVariableFunction):
             self.tree_map[position] = choice(one_variable_function_set)
@@ -186,32 +188,65 @@ class Tree(object):
             self.mutate_from_func_to_func()
 
     def mutate_from_term_to_term(self):
-        position = randint(2, len(self.tree_map.keys())-1)
+        if len(self.init_tree) <= 1:
+            return
+        if len(self.tree_map.keys()) <= 2:
+            position = 1
+        else:
+            position = randint(1, len(self.tree_map.keys())-1)
         if isinstance(self.tree_map[position], Function):
             self.mutate_from_term_to_term()
         else:
             self.tree_map[position] = get_terminal()
 
     def mutate_from_func_to_term(self):
-        position = randint(1, len(self.init_tree)-1)
+        if len(self.init_tree) <= 1:
+            return
+        else:
+            position = randint(0, len(self.init_tree)-1)
         self.index = position
+        self.tree_del = deepcopy(self.init_tree)
         self.delete_subtree()
         self.tree_map[position] = get_terminal()
         self.init_tree = self.tree_del
 
     def mutate_from_term_to_func(self):
-        position = randint(2, len(self.tree_map.keys())-1)
+        if len(self.tree_map.keys()) == 0:
+            return
+        if len(self.tree_map.keys()) <= 2:
+            position = 1
+        else:
+            position = randint(1, len(self.tree_map.keys())-1)
         if isinstance(self.tree_map[position], Function):
             self.mutate_from_term_to_func()
         else:
-            creator = tree_creation.TreeCreator(3)
-            creator.create(False)
-            child = creator.tree
-            self.tree_map[position] = child.tree_map[0]
-            self.index = position
-            self.tree_del = self.init_tree
-            t = Tree.add_child_to_tree(self, child.init_tree, child.tree_map, Tree([], {}))
-            self.tree_del = t.tree_del
-            self.init_tree = t.init_tree
-            self.tree_map = t.tree_map
+            depth = Tree.get_depth(self.init_tree, 0, 0, [], [])
+            if depth < 20:
+                creator = tree_creation.TreeCreator(20-depth)
+                creator.create(False)
+                child = creator.tree
 
+                self.index = position
+                self.tree_del = deepcopy(self.init_tree)
+                self._count_vertexes_number()
+
+                t = Tree.add_child_to_tree(self, child.init_tree, child.tree_map)
+                self.tree_del = deepcopy(t.tree_del)
+                self.init_tree = list(t.init_tree)
+                self.tree_map = t.tree_map
+            else:
+                return
+
+    @staticmethod
+    def get_depth(tree_struct, current_depth, index, visited, depths):
+        visited.append(index)
+        try:
+            for vertex in tree_struct[index]:
+                if not (vertex in visited):
+                    Tree.get_depth(tree_struct, current_depth+1, vertex, visited, depths)
+            if len(depths) == 0:
+                return 0
+            return max(depths)
+        except IndexError:
+            depths.append(current_depth)
+            return
