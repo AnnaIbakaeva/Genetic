@@ -172,7 +172,7 @@ class Tree(object):
                 count += 1
             last_m += 1
 
-        if Tree.get_depth(new_tree.init_tree, 0, 0, [], []) > 20:
+        if Tree.get_depth(new_tree.init_tree, 0, 0, [], []) > 30:
             return Tree([], {})
         return new_tree
 
@@ -222,7 +222,7 @@ class Tree(object):
         else:
             depth = Tree.get_depth(self.init_tree, 0, 0, [], [])
             if depth < 20:
-                creator = tree_creation.TreeCreator(20-depth)
+                creator = tree_creation.TreeCreator(3)
                 creator.create(False)
                 child = creator.tree
 
@@ -240,13 +240,13 @@ class Tree(object):
     @staticmethod
     def get_depth(tree_struct, current_depth, index, visited, depths):
         visited.append(index)
-        try:
+        if index < len(tree_struct):
             for vertex in tree_struct[index]:
                 if not (vertex in visited):
                     Tree.get_depth(tree_struct, current_depth+1, vertex, visited, depths)
             if len(depths) == 0:
                 return 0
             return max(depths)
-        except IndexError:
+        else:
             depths.append(current_depth)
             return

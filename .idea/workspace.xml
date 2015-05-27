@@ -12,7 +12,7 @@
   </component>
   <component name="ChangesViewManager" flattened_view="true" show_ignored="false" />
   <component name="CoverageDataManager">
-    <SUITE FILE_PATH="coverage/GeneticProgramming$__init__.coverage" NAME="__init__ Coverage Results" MODIFIED="1432622065107" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/IO" />
+    <SUITE FILE_PATH="coverage/GeneticProgramming$__init__.coverage" NAME="__init__ Coverage Results" MODIFIED="1432653202452" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/IO" />
     <SUITE FILE_PATH="coverage/GeneticProgramming$tree_creation.coverage" NAME="tree_creation Coverage Results" MODIFIED="1428926182012" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/IO" />
   </component>
   <component name="CreatePatchCommitExecutor">
@@ -30,11 +30,11 @@
       <file leaf-file-name="__init__.py" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/IO/__init__.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="45" column="40" selection-start="1395" selection-end="1395" vertical-scroll-proportion="0.59246576" vertical-offset="558" max-vertical-offset="1802">
+            <state line="118" column="33" selection-start="3733" selection-end="3733" vertical-scroll-proportion="0.72525597" vertical-offset="1275" max-vertical-offset="1870">
               <folding>
                 <element signature="e#23#43#0" expanded="true" />
+                <element signature="e#436#904#0" expanded="false" />
                 <element signature="e#947#1017#0" expanded="false" />
-                <element signature="e#2186#2764#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -43,7 +43,7 @@
       <file leaf-file-name="reproduction.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/IO/reproduction.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="61" column="40" selection-start="2616" selection-end="2616" vertical-scroll-proportion="0.0" vertical-offset="689" max-vertical-offset="1275">
+            <state line="61" column="40" selection-start="2616" selection-end="2616" vertical-scroll-proportion="0.0" vertical-offset="983" max-vertical-offset="1275">
               <folding />
             </state>
           </provider>
@@ -52,7 +52,7 @@
       <file leaf-file-name="crossover.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/IO/crossover.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="24" column="26" selection-start="887" selection-end="901" vertical-scroll-proportion="0.0" vertical-offset="366" max-vertical-offset="1122">
+            <state line="24" column="26" selection-start="887" selection-end="901" vertical-scroll-proportion="0.0" vertical-offset="672" max-vertical-offset="1122">
               <folding>
                 <element signature="e#23#49#0" expanded="true" />
               </folding>
@@ -63,7 +63,7 @@
       <file leaf-file-name="tree.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/IO/tree.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="198" column="13" selection-start="7388" selection-end="7388" vertical-scroll-proportion="0.0" vertical-offset="3074" max-vertical-offset="3366">
+            <state line="220" column="43" selection-start="8156" selection-end="8156" vertical-scroll-proportion="0.0" vertical-offset="2887" max-vertical-offset="3179">
               <folding>
                 <element signature="e#23#66#0" expanded="true" />
                 <element signature="e#1076#1208#0" expanded="false" />
@@ -73,6 +73,7 @@
                 <element signature="e#2537#2795#0" expanded="false" />
                 <element signature="e#2843#3273#0" expanded="false" />
                 <element signature="e#7491#7806#0" expanded="false" />
+                <element signature="e#8904#9305#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -81,14 +82,12 @@
       <file leaf-file-name="tree_creation.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/IO/tree_creation.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="21" column="32" selection-start="609" selection-end="609" vertical-scroll-proportion="0.0" vertical-offset="204" max-vertical-offset="527">
+            <state line="43" column="34" selection-start="1653" selection-end="1653" vertical-scroll-proportion="0.0" vertical-offset="205" max-vertical-offset="867">
               <folding>
                 <element signature="e#215#292#0" expanded="false" />
                 <element signature="e#330#609#0" expanded="false" />
                 <element signature="e#679#1151#0" expanded="false" />
-                <element signature="e#1221#2008#0" expanded="false" />
                 <element signature="e#2177#2561#0" expanded="false" />
-                <element signature="e#2691#2875#0" expanded="false" />
                 <element signature="e#2933#3142#0" expanded="false" />
                 <element signature="e#3181#3432#0" expanded="false" />
               </folding>
@@ -122,8 +121,8 @@
         <option value="$PROJECT_DIR$/IO/sets.py" />
         <option value="$PROJECT_DIR$/IO/reproduction.py" />
         <option value="$PROJECT_DIR$/IO/tree_creation.py" />
-        <option value="$PROJECT_DIR$/IO/tree.py" />
         <option value="$PROJECT_DIR$/IO/crossover.py" />
+        <option value="$PROJECT_DIR$/IO/tree.py" />
         <option value="$PROJECT_DIR$/IO/__init__.py" />
       </list>
     </option>
@@ -441,7 +440,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="0" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
@@ -452,7 +451,7 @@
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.35457516" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2265861" sideWeight="0.50111854" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4591503" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.48039216" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.48039216" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -512,8 +511,8 @@
         <state line="56" column="0" selection-start="1549" selection-end="1549" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1139">
           <folding>
             <element signature="e#23#43#0" expanded="true" />
+            <element signature="e#436#904#0" expanded="false" />
             <element signature="e#947#1017#0" expanded="false" />
-            <element signature="e#2186#2764#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -528,8 +527,8 @@
         <state line="25" column="32" selection-start="634" selection-end="634" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="816">
           <folding>
             <element signature="e#23#43#0" expanded="true" />
+            <element signature="e#436#904#0" expanded="false" />
             <element signature="e#947#1017#0" expanded="false" />
-            <element signature="e#2186#2764#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -559,8 +558,8 @@
         <state line="26" column="0" selection-start="679" selection-end="679" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="663">
           <folding>
             <element signature="e#23#43#0" expanded="true" />
+            <element signature="e#436#904#0" expanded="false" />
             <element signature="e#947#1017#0" expanded="false" />
-            <element signature="e#2186#2764#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -590,8 +589,8 @@
         <state line="26" column="0" selection-start="679" selection-end="679" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="663">
           <folding>
             <element signature="e#23#43#0" expanded="true" />
+            <element signature="e#436#904#0" expanded="false" />
             <element signature="e#947#1017#0" expanded="false" />
-            <element signature="e#2186#2764#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -621,8 +620,8 @@
         <state line="26" column="0" selection-start="679" selection-end="679" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="663">
           <folding>
             <element signature="e#23#43#0" expanded="true" />
+            <element signature="e#436#904#0" expanded="false" />
             <element signature="e#947#1017#0" expanded="false" />
-            <element signature="e#2186#2764#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -647,8 +646,8 @@
         <state line="15" column="24" selection-start="426" selection-end="426" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="357">
           <folding>
             <element signature="e#23#43#0" expanded="true" />
+            <element signature="e#436#904#0" expanded="false" />
             <element signature="e#947#1017#0" expanded="false" />
-            <element signature="e#2186#2764#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -673,8 +672,8 @@
         <state line="1" column="0" selection-start="20" selection-end="20" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="119">
           <folding>
             <element signature="e#23#43#0" expanded="true" />
+            <element signature="e#436#904#0" expanded="false" />
             <element signature="e#947#1017#0" expanded="false" />
-            <element signature="e#2186#2764#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -699,8 +698,8 @@
         <state line="1" column="0" selection-start="20" selection-end="20" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="119">
           <folding>
             <element signature="e#23#43#0" expanded="true" />
+            <element signature="e#436#904#0" expanded="false" />
             <element signature="e#947#1017#0" expanded="false" />
-            <element signature="e#2186#2764#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -725,8 +724,8 @@
         <state line="1" column="0" selection-start="20" selection-end="20" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="119">
           <folding>
             <element signature="e#23#43#0" expanded="true" />
+            <element signature="e#436#904#0" expanded="false" />
             <element signature="e#947#1017#0" expanded="false" />
-            <element signature="e#2186#2764#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -751,8 +750,8 @@
         <state line="1" column="0" selection-start="20" selection-end="20" vertical-scroll-proportion="0.0" vertical-offset="17" max-vertical-offset="119">
           <folding>
             <element signature="e#23#43#0" expanded="true" />
+            <element signature="e#436#904#0" expanded="false" />
             <element signature="e#947#1017#0" expanded="false" />
-            <element signature="e#2186#2764#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -772,8 +771,8 @@
         <state line="1" column="0" selection-start="20" selection-end="20" vertical-scroll-proportion="0.0" vertical-offset="17" max-vertical-offset="119">
           <folding>
             <element signature="e#23#43#0" expanded="true" />
+            <element signature="e#436#904#0" expanded="false" />
             <element signature="e#947#1017#0" expanded="false" />
-            <element signature="e#2186#2764#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -800,16 +799,23 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/IO/crossover.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="24" column="26" selection-start="887" selection-end="901" vertical-scroll-proportion="0.0" vertical-offset="366" max-vertical-offset="1122">
+          <folding>
+            <element signature="e#23#49#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/IO/tree_creation.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="21" column="32" selection-start="609" selection-end="609" vertical-scroll-proportion="0.0" vertical-offset="204" max-vertical-offset="527">
+        <state line="43" column="34" selection-start="1653" selection-end="1653" vertical-scroll-proportion="0.0" vertical-offset="205" max-vertical-offset="867">
           <folding>
             <element signature="e#215#292#0" expanded="false" />
             <element signature="e#330#609#0" expanded="false" />
             <element signature="e#679#1151#0" expanded="false" />
-            <element signature="e#1221#2008#0" expanded="false" />
             <element signature="e#2177#2561#0" expanded="false" />
-            <element signature="e#2691#2875#0" expanded="false" />
             <element signature="e#2933#3142#0" expanded="false" />
             <element signature="e#3181#3432#0" expanded="false" />
           </folding>
@@ -825,7 +831,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/IO/tree.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="198" column="13" selection-start="7388" selection-end="7388" vertical-scroll-proportion="0.0" vertical-offset="3074" max-vertical-offset="3366">
+        <state line="220" column="43" selection-start="8156" selection-end="8156" vertical-scroll-proportion="0.0" vertical-offset="2887" max-vertical-offset="3179">
           <folding>
             <element signature="e#23#66#0" expanded="true" />
             <element signature="e#1076#1208#0" expanded="false" />
@@ -835,26 +841,18 @@
             <element signature="e#2537#2795#0" expanded="false" />
             <element signature="e#2843#3273#0" expanded="false" />
             <element signature="e#7491#7806#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/IO/crossover.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="24" column="26" selection-start="887" selection-end="901" vertical-scroll-proportion="0.0" vertical-offset="366" max-vertical-offset="1122">
-          <folding>
-            <element signature="e#23#49#0" expanded="true" />
+            <element signature="e#8904#9305#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/IO/__init__.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="45" column="40" selection-start="1395" selection-end="1395" vertical-scroll-proportion="0.59246576" vertical-offset="558" max-vertical-offset="1802">
+        <state line="118" column="33" selection-start="3733" selection-end="3733" vertical-scroll-proportion="0.72525597" vertical-offset="1275" max-vertical-offset="1870">
           <folding>
             <element signature="e#23#43#0" expanded="true" />
+            <element signature="e#436#904#0" expanded="false" />
             <element signature="e#947#1017#0" expanded="false" />
-            <element signature="e#2186#2764#0" expanded="false" />
           </folding>
         </state>
       </provider>

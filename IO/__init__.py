@@ -10,11 +10,12 @@ from sets import variable_values_set, target_values
 from copy import deepcopy
 
 
-def generate_init_population(population_number):
+def generate_init_population(number):
     init_trees = []
     i = 0
-    while i < population_number:
-        tree_creator = tree_creation.TreeCreator((i+100)/100)
+    while i < number:
+        depth = (i+100)/100
+        tree_creator = tree_creation.TreeCreator(depth)
         if i % 2 == 0:
             tree_creator.create(False)
         else:
@@ -33,16 +34,16 @@ def select_best_individuals(trees):
     return list(reproductor.select())
 
 
-def cross_trees(population, population_number):
+def cross_trees(population, number):
     i = 0
     result_trees = []
-    while i < population_number-len(population):
+    while i < number-len(population):
         parent1 = choice(population)
         parent2 = choice(population)
         j = randint(1, 10)
         if j <= 9:
-            crossover = Crossover(parent1, parent2)
-            if crossover.cross():
+            cr = Crossover(parent1, parent2)
+            if cr.cross():
                 result_trees.append(crossover.new_tree1)
                 result_trees.append(crossover.new_tree2)
                 i += 1
@@ -80,6 +81,8 @@ def check_on_result(trees):
         while i < len(target_values):
             fitness_result += reproductor.get_fitness(tree, target_values[i], variable_values_set[i])
             i += 1
+        # print(Tree.string_tree_map(tree.tree_map))
+        # print(tree.init_tree)
         print("fitness_result ", fitness_result)
         if fitness_result < 0.00001:
             print("RESULT")
