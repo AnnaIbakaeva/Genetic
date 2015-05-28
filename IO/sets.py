@@ -11,16 +11,25 @@ one_variable_function_set = [OneVariableFunction('sin'), OneVariableFunction('co
 two_variable_function_set = [TwoVariableFunction('+'), TwoVariableFunction('-'), TwoVariableFunction('/'),
                              TwoVariableFunction('*')]
 
-variable_set = ['x', 'y', 'z']
+variable_set = ['x']
 
 variable_values_set = [
-    {'x': 0, 'y': 0, 'z': 2},
-    {'x': 0, 'y': 1, 'z': 2},
-    {'x': 1, 'y': 1, 'z': 3},
-    {'x': 1, 'y': 0, 'z': 3}
+    {'x': 1},
+    {'x': 2},
+    {'x': 3},
+    {'x': 4},
+    {'x': 5},
+    {'x': 6},
+    {'x': 7},
+    {'x': 8},
+    {'x': 9},
+    {'x': 10}
 ]
 
-target_values = [5.43656365691809, 12.611614377411055, 11.94586961052814, 5.14957709864671]
+target_values = [0.16301714400855244, 0.03151207168586773, 0.058874069320250945, -0.07665327400006214,
+                 0.09289826287958812, -0.10728389239595373, 0.11952223407657944, -0.12936833742951767,
+                 -0.12936833742951767, -0.14114737487040882]
+#(sin(3x) + log(sqrt(exp(2/x)))/7
 
 
 def get_terminal():

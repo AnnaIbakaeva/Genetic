@@ -12,7 +12,7 @@ class Crossover(object):
         self._parent2 = Tree(tree2.init_tree, tree2.tree_map)
         self.new_tree1 = Tree([], {})
         self.new_tree2 = Tree([], {})
-        self.max_recursion_depth = 50
+        self.max_recursion_depth = 10
         self.current_recursion_depth = 0
 
     def cross(self):
@@ -44,6 +44,7 @@ class Crossover(object):
                 else:
                     index2 = self._get_index(deepcopy(self._parent2.init_tree))
                 self.current_recursion_depth += 1
+                return False
         except:
             print("Cross except")
             print("parent1 ",self._parent1.init_tree)

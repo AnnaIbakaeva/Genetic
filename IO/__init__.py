@@ -44,8 +44,8 @@ def cross_trees(population, number):
         if j <= 9:
             cr = Crossover(parent1, parent2)
             if cr.cross():
-                result_trees.append(crossover.new_tree1)
-                result_trees.append(crossover.new_tree2)
+                result_trees.append(cr.new_tree1)
+                result_trees.append(cr.new_tree2)
                 i += 1
     return result_trees
 
@@ -73,6 +73,7 @@ def mutate_trees(population):
 def check_on_result(trees):
     reproductor = Reproductor(trees)
     result = False
+    fitnesses= []
     for tree in trees:
         if len(tree.tree_map) == 0:
             continue
@@ -84,15 +85,17 @@ def check_on_result(trees):
         # print(Tree.string_tree_map(tree.tree_map))
         # print(tree.init_tree)
         print("fitness_result ", fitness_result)
+        fitnesses.append(fitness_result)
         if fitness_result < 0.00001:
             print("RESULT")
             print(Tree.string_tree_map(tree.tree_map))
             print(tree.init_tree)
             result = True
+    print("MIN FINTESS RESULT: ", min(fitnesses))
     return result
 
 
-population_number = 500
+population_number = 600
 init_population = generate_init_population(population_number)
 result = False
 counter = 0
