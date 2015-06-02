@@ -14,8 +14,8 @@ class TwoVariableFunction(Function):
         Function.__init__(self, function_name)
 
     def execute(self, var1, var2):
-        if var2 == 0:
-            var2 += 0.000001
+        if var2 == 0 and self.function_name == '/':
+            return 1
         try:
             return eval(str(var1) + self.function_name + str(var2))
         except OverflowError:
@@ -61,4 +61,3 @@ def my_exp(x):
     except:
         print("exp except, x: ", x)
         exit()
-

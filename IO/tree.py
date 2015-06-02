@@ -1,9 +1,10 @@
 #-*- coding: utf-8 -*-
-from random import randint, choice, uniform
+from random import randint, choice
 from functions import Function, OneVariableFunction, TwoVariableFunction
-from sets import one_variable_function_set, two_variable_function_set, get_terminal, variable_set
+from sets import one_variable_function_set, two_variable_function_set, get_terminal
 import tree_creation
 from copy import deepcopy
+from constants import MAX_DEPTH, VARIABLE_SET
 
 
 class Tree(object):
@@ -31,7 +32,7 @@ class Tree(object):
 
     def check_var_existence(self):
         for key in self.tree_map.keys():
-            if self.tree_map[key] in variable_set:
+            if self.tree_map[key] in VARIABLE_SET:
                 return True
         return False
 
@@ -172,7 +173,7 @@ class Tree(object):
                 count += 1
             last_m += 1
 
-        if Tree.get_depth(new_tree.init_tree, 0, 0, [], []) > 30:
+        if Tree.get_depth(new_tree.init_tree, 0, 0, [], []) > MAX_DEPTH:
             return Tree([], {})
         return new_tree
 
@@ -211,31 +212,34 @@ class Tree(object):
         self.init_tree = self.tree_del
 
     def mutate_from_term_to_func(self):
-        if len(self.tree_map.keys()) == 0:
-            return
-        if len(self.tree_map.keys()) <= 2:
-            position = 1
-        else:
-            position = randint(1, len(self.tree_map.keys())-1)
-        if isinstance(self.tree_map[position], Function):
-            self.mutate_from_term_to_func()
-        else:
-            depth = Tree.get_depth(self.init_tree, 0, 0, [], [])
-            if depth < 20:
-                creator = tree_creation.TreeCreator(3)
-                creator.create(False)
-                child = creator.tree
-
-                self.index = position
-                self.tree_del = deepcopy(self.init_tree)
-                self._count_vertexes_number()
-
-                t = Tree.add_child_to_tree(self, child.init_tree, child.tree_map)
-                self.tree_del = deepcopy(t.tree_del)
-                self.init_tree = list(t.init_tree)
-                self.tree_map = t.tree_map
-            else:
+        try:
+            if len(self.tree_map.keys()) == 0:
                 return
+            if len(self.tree_map.keys()) <= 2:
+                position = 1
+            else:
+                position = randint(1, len(self.tree_map.keys())-1)
+            if isinstance(self.tree_map[position], Function):
+                self.mutate_from_term_to_func()
+            else:
+                depth = Tree.get_depth(self.init_tree, 0, 0, [], [])
+                if depth < MAX_DEPTH:
+                    creator = tree_creation.TreeCreator(3)
+                    creator.create(False)
+                    child = creator.tree
+
+                    self.index = position
+                    self.tree_del = deepcopy(self.init_tree)
+                    self._count_vertexes_number()
+
+                    t = Tree.add_child_to_tree(self, child.init_tree, child.tree_map)
+                    self.tree_del = deepcopy(t.tree_del)
+                    self.init_tree = list(t.init_tree)
+                    self.tree_map = t.tree_map
+                else:
+                    return
+        except RuntimeError:
+            return
 
     @staticmethod
     def get_depth(tree_struct, current_depth, index, visited, depths):
@@ -250,3 +254,11 @@ class Tree(object):
         else:
             depths.append(current_depth)
             return
+
+    def get_coefficients(self):
+        coefficients = []
+        for keys in self.tree_map.keys():
+            if not isinstance(self.tree_map[keys], Function):
+                if not self.tree_map[keys] in VARIABLE_SET:
+                    coefficients.append(self.tree_map[keys])
+        return coefficients

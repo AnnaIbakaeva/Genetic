@@ -6,15 +6,20 @@ from polish_notation import get_polish_notation, calculate_polish_notation, nota
 from functions import TwoVariableFunction, Function
 from reproduction import Reproductor
 from random import choice, randint
-from sets import variable_values_set, target_values
+from constants import POPULATION_NUMBER, VARIABLE_VALUES_SET, TARGET_VALUES, MUTATION_PROBABILITY, \
+    NODAL_MUTATION_PROBABILITY, TARGET_RESULT, CROSS_PROBABILITY, REPRODUCTION_PROBABILITY, SECONDARY_INPUTS, \
+    SECONDARY_OUTPUTS
 from copy import deepcopy
+from math import isinf
+
+results = []
 
 
-def generate_init_population(number):
+def generate_init_population():
     init_trees = []
     i = 0
-    while i < number:
-        depth = (i+100)/100
+    while i < POPULATION_NUMBER:
+        depth = i/100 + 1
         tree_creator = tree_creation.TreeCreator(depth)
         if i % 2 == 0:
             tree_creator.create(False)
@@ -30,41 +35,45 @@ def generate_init_population(number):
 
 
 def select_best_individuals(trees):
+    print("")
+    print "REPRODUCTION"
     reproductor = Reproductor(trees)
     return list(reproductor.select())
 
 
-def cross_trees(population, number):
-    i = 0
+def cross_trees(population):
+    # i = 0
     result_trees = []
-    while i < number-len(population):
-        parent1 = choice(population)
-        parent2 = choice(population)
-        j = randint(1, 10)
-        if j <= 9:
-            cr = Crossover(parent1, parent2)
-            if cr.cross():
-                result_trees.append(cr.new_tree1)
-                result_trees.append(cr.new_tree2)
-                i += 1
+    # offspring_number = (POPULATION_NUMBER-len(population))/2
+    # if offspring_number == 0:
+    #     offspring_number = len(population)/2
+    # while i < offspring_number:
+    parent1 = choice(population)
+    parent2 = choice(population)
+    j = randint(1, CROSS_PROBABILITY)
+    if j <= 9:
+        cr = Crossover(parent1, parent2)
+        if cr.cross():
+            result_trees.append(cr.new_tree1)
+            result_trees.append(cr.new_tree2)
     return result_trees
 
 
 def mutate_trees(population):
     for individual in population:
-        value = randint(1, 100)
+        value = randint(1, NODAL_MUTATION_PROBABILITY)
         if value == 1:
             individual.mutate_from_term_to_term()
         else:
-            value = randint(1, 100)
+            value = randint(1, NODAL_MUTATION_PROBABILITY)
             if value == 1:
                 individual.mutate_from_func_to_func()
             else:
-                value = randint(1, 1000)
+                value = randint(1, MUTATION_PROBABILITY)
                 if value == 1:
                     individual.mutate_from_func_to_term()
                 else:
-                    value = randint(1, 1000)
+                    value = randint(1, MUTATION_PROBABILITY)
                     if value == 1:
                         individual.mutate_from_term_to_func()
     return population
@@ -79,24 +88,57 @@ def check_on_result(trees):
             continue
         i = 0
         fitness_result = 0
-        while i < len(target_values):
-            fitness_result += reproductor.get_fitness(tree, target_values[i], variable_values_set[i])
+        while i < len(TARGET_VALUES):
+            fitness_result += reproductor.get_fitness(tree, TARGET_VALUES[i], VARIABLE_VALUES_SET[i])
             i += 1
-        # print(Tree.string_tree_map(tree.tree_map))
-        # print(tree.init_tree)
         print("fitness_result ", fitness_result)
+        if isinf(fitness_result):
+            continue
         fitnesses.append(fitness_result)
-        if fitness_result < 0.00001:
+        if fitness_result < TARGET_RESULT:
             print("RESULT")
             print(Tree.string_tree_map(tree.tree_map))
             print(tree.init_tree)
-            result = True
+            results.append(tree)
+            #result = True
+        # elif fitness_result < TEMP_RESULT:
     print("MIN FINTESS RESULT: ", min(fitnesses))
+    print "AVERAGE FITNESS: ", sum(fitnesses)/len(fitnesses)
+    print "length ", len(fitnesses)
+    print "results ", results
     return result
 
 
-population_number = 600
-init_population = generate_init_population(population_number)
+def select(population):
+    i = 0
+    new_population = []
+    while i < POPULATION_NUMBER:
+        offspring = cross_trees(population)
+        if len(offspring) > 0:
+            new_population += offspring
+            i += 2
+        j = randint(1, REPRODUCTION_PROBABILITY)
+        if j <= 2:
+            new_population.append(choice(population))
+            i += 1
+    return new_population
+
+
+def select_best_result(trees):
+    fitnesses = []
+    for individual in trees:
+        i = 0
+        fitness = 0
+        while i < len(SECONDARY_INPUTS):
+            fitness += Reproductor.get_fitness(individual, SECONDARY_OUTPUTS[i], SECONDARY_INPUTS[i])
+            i += 1
+        fitnesses.append(fitness)
+    best_fitness = min(fitnesses)
+    position = fitnesses.index(best_fitness)
+    return trees[position]
+
+
+init_population = generate_init_population()
 result = False
 counter = 0
 while not result and counter < 500:
@@ -107,20 +149,24 @@ while not result and counter < 500:
 
     if len(best_individuals) == 0:
         print("Reproduction empty")
-        result = True
-        continue
+        break
 
-    children = deepcopy(cross_trees(best_individuals, population_number))
-    all_trees = best_individuals + children
+    new_generation = deepcopy(select(best_individuals))
+    # all_trees = best_individuals + children
 
-    all_trees = deepcopy(mutate_trees(all_trees))
+    mutated_trees = deepcopy(mutate_trees(new_generation))
 
-    result = check_on_result(all_trees)
+    result = check_on_result(mutated_trees)
 
-    init_population = deepcopy(all_trees)
+    init_population = deepcopy(mutated_trees)
     if len(init_population) == 0:
         print("Empty population")
         result = True
     counter += 1
 
 print("End")
+if results > 0:
+    best_tree = select_best_result(results)
+    print "Best result"
+    print Tree.string_tree_map(best_tree.tree_map)
+    print best_tree.init_tree

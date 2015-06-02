@@ -1,7 +1,8 @@
 import random
-from sets import function_set, variable_set, get_terminal
+from sets import function_set, get_terminal
 from functions import TwoVariableFunction, Function
 from tree import Tree
+from constants import VARIABLE_SET
 
 
 class TreeCreator(object):
@@ -88,4 +89,4 @@ class TreeCreator(object):
             if not isinstance(self._tree_map[key], Function):
                 terms.append(key)
         position = random.choice(terms)
-        self._tree_map[position] = random.choice(variable_set)
+        self._tree_map[position] = random.choice(VARIABLE_SET)

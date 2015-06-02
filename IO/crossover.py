@@ -3,6 +3,7 @@ from random import randint
 from functions import TwoVariableFunction, OneVariableFunction
 from tree import Tree
 from copy import deepcopy
+from constants import MAX_RECURSION
 
 
 class Crossover(object):
@@ -12,18 +13,16 @@ class Crossover(object):
         self._parent2 = Tree(tree2.init_tree, tree2.tree_map)
         self.new_tree1 = Tree([], {})
         self.new_tree2 = Tree([], {})
-        self.max_recursion_depth = 10
         self.current_recursion_depth = 0
 
     def cross(self):
         try:
-            if len(self._parent1.init_tree) <= 1 or len(self._parent2.init_tree) <= 1 \
-                    or self.current_recursion_depth >= self.max_recursion_depth:
+            if len(self._parent1.init_tree) <= 1 or len(self._parent2.init_tree) <= 1:
                 return False
             index1 = self._get_index(list(self._parent1.init_tree))
             index2 = self._get_index(list(self._parent2.init_tree))
             is_arity_equal = False
-            while not is_arity_equal and self.current_recursion_depth < self.max_recursion_depth:
+            while not is_arity_equal and self.current_recursion_depth < MAX_RECURSION:
                 if (isinstance(self._parent1.tree_map[index1], TwoVariableFunction) and
                         isinstance(self._parent2.tree_map[index2], TwoVariableFunction)) or \
                         (isinstance(self._parent1.tree_map[index1], OneVariableFunction)
@@ -55,7 +54,5 @@ class Crossover(object):
             print("index2 ", index2)
 
     def _get_index(self, tree_struct):
-        index = 1
-        if len(tree_struct) > 2:
-            index = randint(1, len(tree_struct)-1)
+        index = randint(0, len(tree_struct)-1)
         return index

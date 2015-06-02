@@ -1,5 +1,5 @@
 from functions import Function, TwoVariableFunction
-from sets import variable_set
+from constants import VARIABLE_SET
 from math import isinf
 
 
@@ -38,7 +38,7 @@ def _create_polish_notation(tree, tree_map, current_vertex, visited, notation):
 
 
 def _get_value(term, var_values):
-    if term in variable_set:
+    if term in VARIABLE_SET:
         return var_values[term]
     return term
 
