@@ -18,6 +18,7 @@ class Tree(object):
         self.children_map = {}
         self.vertex_counter = 0
         self.index = 0
+        self.fitness = 100
 
     @staticmethod
     def string_tree_map(tree_map):

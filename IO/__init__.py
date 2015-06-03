@@ -19,7 +19,7 @@ def generate_init_population():
     init_trees = []
     i = 0
     while i < POPULATION_NUMBER:
-        depth = i/100 + 1
+        depth = (i+100)/100 + 1
         tree_creator = tree_creation.TreeCreator(depth)
         if i % 2 == 0:
             tree_creator.create(False)
@@ -42,12 +42,7 @@ def select_best_individuals(trees):
 
 
 def cross_trees(population):
-    # i = 0
     result_trees = []
-    # offspring_number = (POPULATION_NUMBER-len(population))/2
-    # if offspring_number == 0:
-    #     offspring_number = len(population)/2
-    # while i < offspring_number:
     parent1 = choice(population)
     parent2 = choice(population)
     j = randint(1, CROSS_PROBABILITY)
@@ -99,13 +94,15 @@ def check_on_result(trees):
             print("RESULT")
             print(Tree.string_tree_map(tree.tree_map))
             print(tree.init_tree)
+            tree.fitness = fitness_result
             results.append(tree)
-            #result = True
-        # elif fitness_result < TEMP_RESULT:
     print("MIN FINTESS RESULT: ", min(fitnesses))
     print "AVERAGE FITNESS: ", sum(fitnesses)/len(fitnesses)
     print "length ", len(fitnesses)
-    print "results ", results
+    print "results "
+    for r in results:
+        print "fitness ", r.fitness
+        print Tree.string_tree_map(r.tree_map)
     return result
 
 
@@ -152,7 +149,6 @@ while not result and counter < 500:
         break
 
     new_generation = deepcopy(select(best_individuals))
-    # all_trees = best_individuals + children
 
     mutated_trees = deepcopy(mutate_trees(new_generation))
 
@@ -170,3 +166,4 @@ if results > 0:
     print "Best result"
     print Tree.string_tree_map(best_tree.tree_map)
     print best_tree.init_tree
+    print best_tree.fitness
