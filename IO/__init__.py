@@ -167,3 +167,8 @@ if results > 0:
     print Tree.string_tree_map(best_tree.tree_map)
     print best_tree.init_tree
     print best_tree.fitness
+    print("")
+    print "MIN RESULT"
+    print Tree.string_tree_map(min(results))
+    print min(results).init_tree
+    print min(results).fitness
