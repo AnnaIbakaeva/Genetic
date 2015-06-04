@@ -161,14 +161,14 @@ while not result and counter < 500:
     counter += 1
 
 print("End")
-if results > 0:
-    best_tree = select_best_result(results)
-    print "Best result"
-    print Tree.string_tree_map(best_tree.tree_map)
-    print best_tree.init_tree
-    print best_tree.fitness
-    print("")
-    print "MIN RESULT"
-    print Tree.string_tree_map(min(results))
-    print min(results).init_tree
-    print min(results).fitness
+# if results > 0:
+#     best_tree = select_best_result(results)
+#     print "Best result"
+#     print Tree.string_tree_map(best_tree.tree_map)
+#     print best_tree.init_tree
+#     print best_tree.fitness
+print("")
+print "MIN RESULT"
+print Tree.string_tree_map(min(results))
+print min(results).init_tree
+print min(results).fitness
