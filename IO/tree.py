@@ -190,16 +190,19 @@ class Tree(object):
             self.mutate_from_func_to_func()
 
     def mutate_from_term_to_term(self):
-        if len(self.init_tree) <= 1:
+        try:
+            if len(self.init_tree) <= 1:
+                return
+            if len(self.tree_map.keys()) <= 2:
+                position = 1
+            else:
+                position = randint(1, len(self.tree_map.keys())-1)
+            if isinstance(self.tree_map[position], Function):
+                self.mutate_from_term_to_term()
+            else:
+                self.tree_map[position] = get_terminal()
+        except RuntimeError:
             return
-        if len(self.tree_map.keys()) <= 2:
-            position = 1
-        else:
-            position = randint(1, len(self.tree_map.keys())-1)
-        if isinstance(self.tree_map[position], Function):
-            self.mutate_from_term_to_term()
-        else:
-            self.tree_map[position] = get_terminal()
 
     def mutate_from_func_to_term(self):
         if len(self.init_tree) <= 1:
