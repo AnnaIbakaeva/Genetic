@@ -31,7 +31,7 @@ def _create_polish_notation(tree, tree_map, current_vertex, visited, notation):
             return notation
         else:
             return notation
-    except KeyError:
+    except:
         print("current_vertex ", current_vertex)
         print("tree_map ", tree_map)
         print("tree ", tree)
