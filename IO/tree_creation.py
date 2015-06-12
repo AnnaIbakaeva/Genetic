@@ -11,6 +11,7 @@ class TreeCreator(object):
         self.depth = depth
         self._tree_struct = []
         self._tree_map = {}
+        self.tree = None
 
     def create(self, full):
         self._tree_map[0] = random.choice(function_set)

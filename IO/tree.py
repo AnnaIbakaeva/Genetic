@@ -259,10 +259,10 @@ class Tree(object):
             depths.append(current_depth)
             return
 
-    def get_coefficients(self):
-        coefficients = []
-        for keys in self.tree_map.keys():
-            if not isinstance(self.tree_map[keys], Function):
-                if not self.tree_map[keys] in VARIABLE_SET:
-                    coefficients.append(self.tree_map[keys])
-        return coefficients
+    # def get_coefficients(self):
+    #     coefficients = []
+    #     for keys in self.tree_map.keys():
+    #         if not isinstance(self.tree_map[keys], Function):
+    #             if not self.tree_map[keys] in VARIABLE_SET:
+    #                 coefficients.append(self.tree_map[keys])
+    #     return coefficients

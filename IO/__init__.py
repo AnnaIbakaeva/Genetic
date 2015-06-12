@@ -8,7 +8,7 @@ from reproduction import Reproductor
 from random import choice, randint
 from constants import POPULATION_NUMBER, VARIABLE_VALUES_SET, TARGET_VALUES, MUTATION_PROBABILITY, \
     NODAL_MUTATION_PROBABILITY, TARGET_RESULT, CROSS_PROBABILITY, REPRODUCTION_PROBABILITY, SECONDARY_INPUTS, \
-    SECONDARY_OUTPUTS
+    SECONDARY_OUTPUTS, ALLOWABLE_ERROR
 from copy import deepcopy
 from math import isinf
 
@@ -35,8 +35,6 @@ def generate_init_population():
 
 
 def select_best_individuals(trees):
-    print("")
-    print "REPRODUCTION"
     reproductor = Reproductor(trees)
     return list(reproductor.select())
 
@@ -83,14 +81,19 @@ def check_on_result(trees):
             continue
         i = 0
         fitness_result = 0
+        good_individual = True
         while i < len(TARGET_VALUES):
-            fitness_result += reproductor.get_fitness(tree, TARGET_VALUES[i], VARIABLE_VALUES_SET[i])
+            error = reproductor.get_fitness(tree, TARGET_VALUES[i], VARIABLE_VALUES_SET[i])
+            if error > ALLOWABLE_ERROR:
+                good_individual = False
+            fitness_result += error  #reproductor.get_fitness(tree, TARGET_VALUES[i], VARIABLE_VALUES_SET[i])
             i += 1
-        print("fitness_result ", fitness_result)
+        # print("fitness_result ", fitness_result)
         if isinf(fitness_result):
             continue
         fitnesses.append(fitness_result)
-        if fitness_result < TARGET_RESULT:
+        # if fitness_result < TARGET_RESULT:
+        if good_individual:
             print("RESULT")
             print(Tree.string_tree_map(tree.tree_map))
             print(tree.init_tree)

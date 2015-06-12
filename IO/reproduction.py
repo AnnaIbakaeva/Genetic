@@ -6,6 +6,7 @@ from functions import Function
 import copy
 from tree import Tree
 
+
 class Reproductor(object):
 
     def __init__(self, population):
