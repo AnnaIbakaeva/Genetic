@@ -93,7 +93,7 @@ def check_on_result(trees):
             continue
         fitnesses.append(fitness_result)
         # if fitness_result < TARGET_RESULT:
-        if good_individual:
+        if good_individual or fitness_result < TARGET_RESULT:
             print("RESULT")
             print(Tree.string_tree_map(tree.tree_map))
             print(tree.init_tree)
