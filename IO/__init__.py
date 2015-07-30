@@ -27,16 +27,16 @@ def generate_init_population():
             tree_creator.create(True)
         t = tree_creator.tree
         init_trees.append(Tree(t.init_tree, t.tree_map))
-        print(Tree.string_tree_map(t.tree_map))
+        print(Tree.tree_map_to_string(t.tree_map))
         print(t.init_tree)
         print("")
         i += 1
     return list(init_trees)
 
 
-def select_best_individuals(trees):
-    reproductor = Reproductor(trees)
-    return list(reproductor.select())
+def reproduce(trees):
+    rep = Reproductor(trees)
+    return list(rep.select())
 
 
 def cross_trees(population):
@@ -72,44 +72,37 @@ def mutate_trees(population):
     return population
 
 
-def check_on_result(trees):
-    reproductor = Reproductor(trees)
-    result = False
-    fitnesses= []
-    for tree in trees:
-        if len(tree.tree_map) == 0:
+def check_fitness(trees):
+    errors = []
+    for one_tree in trees:
+        if len(one_tree.tree_map) == 0:
             continue
-        i = 0
-        fitness_result = 0
+        sum_error = 0
         good_individual = True
-        while i < len(TARGET_VALUES):
-            error = reproductor.get_fitness(tree, TARGET_VALUES[i], VARIABLE_VALUES_SET[i])
+        for i in range(0, len(TARGET_VALUES)):
+            error = Reproductor.get_error(one_tree, TARGET_VALUES[i], VARIABLE_VALUES_SET[i])
             if error > ALLOWABLE_ERROR:
                 good_individual = False
-            fitness_result += error  #reproductor.get_fitness(tree, TARGET_VALUES[i], VARIABLE_VALUES_SET[i])
-            i += 1
-        # print("fitness_result ", fitness_result)
-        if isinf(fitness_result):
+            sum_error += error
+        if isinf(sum_error):
             continue
-        fitnesses.append(fitness_result)
-        # if fitness_result < TARGET_RESULT:
-        if good_individual or fitness_result < TARGET_RESULT:
+        errors.append(sum_error)
+        if good_individual or sum_error < TARGET_RESULT:
             print("RESULT")
-            print(Tree.string_tree_map(tree.tree_map))
-            print(tree.init_tree)
-            tree.fitness = fitness_result
-            results.append(tree)
-    print("MIN FINTESS RESULT: ", min(fitnesses))
-    print "AVERAGE FITNESS: ", sum(fitnesses)/len(fitnesses)
-    print "length ", len(fitnesses)
+            print(Tree.tree_map_to_string(one_tree.tree_map))
+            print(one_tree.init_tree)
+            one_tree.fitness = sum_error
+            results.append(one_tree)
+    print("MIN FITNESS RESULT: ", min(errors))
+    print "AVERAGE FITNESS: ", sum(errors)/len(errors)
+    print "length ", len(errors)
     print "results "
     for r in results:
         print "fitness ", r.fitness
-        print Tree.string_tree_map(r.tree_map)
-    return result
+        print Tree.tree_map_to_string(r.tree_map)
 
 
-def select(population):
+def create_new_generation(population):
     i = 0
     new_population = []
     while i < POPULATION_NUMBER:
@@ -124,54 +117,44 @@ def select(population):
     return new_population
 
 
-def select_best_result(trees):
-    fitnesses = []
+def select_best_result_with_secondary_data(trees):
+    errors = []
     for individual in trees:
-        i = 0
         fitness = 0
-        while i < len(SECONDARY_INPUTS):
-            fitness += Reproductor.get_fitness(individual, SECONDARY_OUTPUTS[i], SECONDARY_INPUTS[i])
-            i += 1
-        fitnesses.append(fitness)
-    best_fitness = min(fitnesses)
-    position = fitnesses.index(best_fitness)
+        for i in range(0, len(SECONDARY_INPUTS)):
+            fitness += Reproductor.get_error(individual, SECONDARY_OUTPUTS[i], SECONDARY_INPUTS[i])
+        errors.append(fitness)
+    best_fitness = min(errors)
+    position = errors.index(best_fitness)
     return trees[position]
 
 
 init_population = generate_init_population()
 result = False
 counter = 0
-while not result and counter < 500:
+while counter < 500:
     print("************************************************************************************************************"
           "************************************************************************************************************")
     print(counter)
-    best_individuals = deepcopy(select_best_individuals(init_population))
+    best_individuals = deepcopy(reproduce(init_population))
 
     if len(best_individuals) == 0:
         print("Reproduction empty")
         break
 
-    new_generation = deepcopy(select(best_individuals))
-
+    new_generation = deepcopy(create_new_generation(best_individuals))
     mutated_trees = deepcopy(mutate_trees(new_generation))
-
-    result = check_on_result(mutated_trees)
-
+    check_fitness(mutated_trees)
     init_population = deepcopy(mutated_trees)
+
     if len(init_population) == 0:
         print("Empty population")
-        result = True
+        break
     counter += 1
 
 print("End")
-# if results > 0:
-#     best_tree = select_best_result(results)
-#     print "Best result"
-#     print Tree.string_tree_map(best_tree.tree_map)
-#     print best_tree.init_tree
-#     print best_tree.fitness
 print("")
 print "MIN RESULT"
-print Tree.string_tree_map(min(results))
+print Tree.tree_map_to_string(min(results))
 print min(results).init_tree
 print min(results).fitness

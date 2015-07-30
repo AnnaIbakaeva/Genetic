@@ -21,13 +21,11 @@ class Crossover(object):
                 return False
             index1 = self._get_index(list(self._parent1.init_tree))
             index2 = self._get_index(list(self._parent2.init_tree))
-            is_arity_equal = False
-            while not is_arity_equal and self.current_recursion_depth < MAX_RECURSION:
+            while self.current_recursion_depth < MAX_RECURSION:
                 if (isinstance(self._parent1.tree_map[index1], TwoVariableFunction) and
                         isinstance(self._parent2.tree_map[index2], TwoVariableFunction)) or \
                         (isinstance(self._parent1.tree_map[index1], OneVariableFunction)
                          and isinstance(self._parent2.tree_map[index2], OneVariableFunction)):
-                    is_arity_equal = True
                     self._parent1.index = index1
                     self._parent2.index = index2
 
@@ -47,10 +45,10 @@ class Crossover(object):
         except:
             print("Cross except")
             print("parent1 ",self._parent1.init_tree)
-            print(Tree.string_tree_map(self._parent1.tree_map))
+            print(Tree.tree_map_to_string(self._parent1.tree_map))
             print("index1 ", index1)
             print("parent2 ", self._parent2.init_tree)
-            print(Tree.string_tree_map(self._parent2.tree_map))
+            print(Tree.tree_map_to_string(self._parent2.tree_map))
             print("index2 ", index2)
 
     def _get_index(self, tree_struct):

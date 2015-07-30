@@ -22,7 +22,7 @@ class Reproductor(object):
             sum_adjusted_fitness = 0
             for individual in self._init_population:
                 if len(individual.tree_map) > 0:
-                    fitness = self.get_fitness(individual, TARGET_VALUES[i], VARIABLE_VALUES_SET[i])
+                    fitness = self._get_error(individual, TARGET_VALUES[i], VARIABLE_VALUES_SET[i])
                     if not isinf(fitness):
                         sum_adjusted_fitness += Reproductor.get_adjusted_fitness(fitness)
             if isinf(sum_adjusted_fitness):
@@ -32,20 +32,16 @@ class Reproductor(object):
             self.adjusted_fitness_values.append(sum_adjusted_fitness)
             i += 1
 
-    def get_fitness(self, individual, target, variable_values):
-        # print "tree ", Tree.string_tree_map(individual.tree_map)
-        # print individual.init_tree
+    def _get_error(self, individual, target, variable_values):
         notation = polish_notation.get_polish_notation(individual)
-        # print "notation ", polish_notation.notation_to_str(notation)
         value = polish_notation.calculate_polish_notation(notation, variable_values)
-        # print "value ", value
         if isinf(value):
             self._del_individuals.add(individual)
             return value
-        result = (target - value)*(target - value)
-        if isinf(result):
+        error = (target - value)*(target - value)
+        if isinf(error):
             self._del_individuals.add(individual)
-        return result
+        return error
 
     def select(self):
         for individual in self._init_population:
@@ -53,7 +49,7 @@ class Reproductor(object):
                 i = 0
                 counts = 0
                 while i < len(TARGET_VALUES):
-                    fitness = self.get_fitness(individual, TARGET_VALUES[i], VARIABLE_VALUES_SET[i])
+                    fitness = self._get_error(individual, TARGET_VALUES[i], VARIABLE_VALUES_SET[i])
                     adjusted_fitness = Reproductor.get_adjusted_fitness(fitness)
                     counts += int((adjusted_fitness/self.adjusted_fitness_values[i]) * len(self._init_population))
                     i += 1
@@ -78,7 +74,7 @@ class Reproductor(object):
         return 1/(1+standardized_fitness)
 
     @staticmethod
-    def get_fitness(individual, target, variable_values):
+    def get_error(individual, target, variable_values):
         notation = polish_notation.get_polish_notation(individual)
         value = polish_notation.calculate_polish_notation(notation, variable_values)
         if isinf(value):

@@ -21,7 +21,7 @@ class Tree(object):
         self.fitness = 100
 
     @staticmethod
-    def string_tree_map(tree_map):
+    def tree_map_to_string(tree_map):
         string = ""
         for key in tree_map.keys():
             if isinstance(tree_map[key], Function):
@@ -58,27 +58,27 @@ class Tree(object):
         self._find_children(queue, visited)
 
     def delete_subtree(self):
-        deleting = []
+        deleted_vertexes = []
         if self.index < len(self.init_tree):
             for v in self.init_tree[self.index]:
                 if v < len(self.init_tree):
-                    deleting = self._count_delete_subtree(v, self.init_tree[v], deleting)
-            deleting.sort(None, None, True)
-            for ver in deleting:
+                    deleted_vertexes = self._calculate_deleted_vertexes(v, self.init_tree[v], deleting)
+            deleted_vertexes.sort(None, None, True)
+            for ver in deleted_vertexes:
                 del self.tree_del[ver]
             self.tree_del[self.index] = []
-        self._count_vertexes_number()
+        self._recalculate_vertexes_number()
         self._delete_last_empty()
 
-    def _count_delete_subtree(self, index, children, deleting):
+    def _calculate_deleted_vertexes(self, index, children, deleting):
         if index < len(self.init_tree) and index not in deleting:
             deleting.append(index)
         for v in children:
             if v < len(self.init_tree):
-                self._count_delete_subtree(v, self.init_tree[v], deleting)
+                self._calculate_deleted_vertexes(v, self.init_tree[v], deleting)
         return deleting
 
-    def _count_vertexes_number(self):
+    def _recalculate_vertexes_number(self):
         temp_map = dict(self.tree_map)
         self.tree_map = {0: temp_map[0]}
         count = 1
@@ -234,7 +234,7 @@ class Tree(object):
 
                     self.index = position
                     self.tree_del = deepcopy(self.init_tree)
-                    self._count_vertexes_number()
+                    self._recalculate_vertexes_number()
 
                     t = Tree.add_child_to_tree(self, child.init_tree, child.tree_map)
                     self.tree_del = deepcopy(t.tree_del)
