@@ -109,6 +109,20 @@ class Tree(object):
                 last_vertex_number = vertex
         return last_vertex_number
 
+    def _add_parent_residue(self, new_tree, current_position, saved_vertexes, next_vertex_number):
+        while current_position < len(self.tree_del):
+            new_tree.init_tree.append([])
+            last_position = len(new_tree.init_tree)-1
+            if last_position in saved_vertexes:
+                saved_vertexes.remove(last_position)
+                continue
+            for v in self.tree_del[current_position]:
+                new_tree.init_tree[len(new_tree.init_tree) - 1].append(next_vertex_number)
+                new_tree.tree_map[next_vertex_number] = self.tree_map[v]
+                next_vertex_number += 1
+            current_position += 1
+        return new_tree
+
     def _copy_constant_tree_part(self):
         new_tree = Tree([], {})
         new_tree.tree_map[0] = self.tree_map[0]
@@ -123,33 +137,33 @@ class Tree(object):
 
     def _add_child(self, new_tree, next_vertex_number):
         index = self.index
-        save_counts = []
-        save_counts2 = []
-        last_m = len(self.tree_del)
+        saved_vertexes = [] #новые добавленные вершины текущего шага
+        saved_vertexes2 = []
+        last_adding_parent_vertex = len(self.tree_del)
         new_vertex_counter = 0
         for vs in self.children.init_tree:
             new_tree.init_tree.append([])
             if self.children.init_tree.index(vs) > 0:
                 new_vertex_counter += 1
-            if len(new_tree.init_tree)-1 in save_counts2:
-                save_counts2.remove(len(new_tree.init_tree)-1)
+            if len(new_tree.init_tree)-1 in saved_vertexes2:
+                saved_vertexes2.remove(len(new_tree.init_tree)-1)
             if len(vs) > 0:
                 for v in vs:
                     new_tree.init_tree[len(new_tree.init_tree)-1].append(next_vertex_number)
                     new_tree.tree_map[next_vertex_number] = self.children.tree_map[v]
-                    save_counts.append(next_vertex_number)
+                    saved_vertexes.append(next_vertex_number)
                     next_vertex_number += 1
-            if len(save_counts2) > 0:
+            if len(saved_vertexes2) > 0:
                 if self.children.init_tree.index(vs) == len(self.children.init_tree)-1:
                     new_tree.init_tree.append([])
-                    save_counts2.remove(len(new_tree.init_tree)-1)
-                    save_counts2 = list(save_counts)
+                    saved_vertexes2.remove(len(new_tree.init_tree)-1)
+                    saved_vertexes2 = list(saved_vertexes)
                 continue
             i = index + 1
-            if len(save_counts) == 0:
+            if len(saved_vertexes) == 0:
                 m = i
             else:
-                m = min(save_counts) - new_vertex_counter
+                m = min(saved_vertexes) - new_vertex_counter
             while i < m and i <= self.vertex_counter:
                 new_tree.init_tree.append([])
                 if i < len(self.tree_del):
@@ -157,23 +171,14 @@ class Tree(object):
                         new_tree.init_tree[len(new_tree.init_tree) - 1].append(next_vertex_number)
                         new_tree.tree_map[next_vertex_number] = self.tree_map[k]
                         next_vertex_number += 1
-                    last_m = i
+                    last_adding_parent_vertex = i
                 i += 1
             index = m - 1
-            save_counts2 = list(save_counts)
-            save_counts = []
-        last_m += 1
-        while last_m < len(self.tree_del):
-            new_tree.init_tree.append([])
-            last_position = len(new_tree.init_tree)-1
-            if last_position in save_counts2:
-                save_counts2.remove(last_position)
-                continue
-            for v in self.tree_del[last_m]:
-                new_tree.init_tree[len(new_tree.init_tree) - 1].append(next_vertex_number)
-                new_tree.tree_map[next_vertex_number] = self.tree_map[v]
-                next_vertex_number += 1
-            last_m += 1
+            saved_vertexes2 = list(saved_vertexes)
+            saved_vertexes = []
+        last_adding_parent_vertex += 1
+        new_tree = deepcopy(self._add_parent_residue(new_tree, last_adding_parent_vertex, saved_vertexes2, next_vertex_number))
+        return new_tree
 
     def add_child_to_tree(self):
         """Добавляет дерево-потомок к текущему дереву-родителю.
