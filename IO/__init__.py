@@ -153,8 +153,9 @@ while counter < 500:
     counter += 1
 
 print("End")
-print("")
-print "MIN RESULT"
-print Tree.tree_map_to_string(min(results))
-print min(results).init_tree
-print min(results).fitness
+if len(results) > 0:
+    print("")
+    print "MIN RESULT"
+    print Tree.tree_map_to_string(min(results))
+    print min(results).init_tree
+    print min(results).fitness

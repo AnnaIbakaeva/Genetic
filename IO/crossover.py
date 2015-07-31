@@ -29,14 +29,18 @@ class Crossover(object):
                     self._parent1.index = index1
                     self._parent2.index = index2
 
+                    self._parent1.children = Tree([], {})
+                    self._parent2.children = Tree([], {})
+
                     self._parent1.find_children()
                     self._parent2.find_children()
 
                     self._parent1.delete_subtree()
                     self._parent2.delete_subtree()
 
-                    self.new_tree1 = Tree.add_child_to_tree(self._parent1, self._parent2.children, self._parent2.children_map)
-                    self.new_tree2 = Tree.add_child_to_tree(self._parent2, self._parent1.children, self._parent1.children_map)
+                    self.new_tree1 = self._parent1.add_child_to_tree()
+                    self.new_tree2 = self._parent2.add_child_to_tree()
+                    self.current_recursion_depth = 0
                     return True
                 else:
                     index2 = self._get_index(deepcopy(self._parent2.init_tree))
