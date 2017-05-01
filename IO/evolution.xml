@@ -1,0 +1,195 @@
+<?xml version='1.0' encoding='utf-8'?>
+<Evolution xmlns="http://ns.adobe.com/air/application/1.5">
+  <PopulationNumber>10</PopulationNumber>
+  <MaxDepth>10</MaxDepth>
+  <AllowableError>0.1</AllowableError>
+  <Variables>
+    <item>x</item>
+    <item>y</item>
+  </Variables>
+  <InputValues>
+    <Item>
+      <Variable name="y" value="0.2"/>
+      <Variable name="x" value="0"/>
+    </Item>
+    <Item>
+      <Variable name="y" value="0.3"/>
+      <Variable name="x" value="0.0050354"/>
+    </Item>
+    <Item>
+      <Variable name="y" value="0"/>
+      <Variable name="x" value="0.010070801"/>
+    </Item>
+    <Item>
+      <Variable name="y" value="-0.2"/>
+      <Variable name="x" value="0.015106201"/>
+    </Item>
+    <Item>
+      <Variable name="y" value="0.1"/>
+      <Variable name="x" value="0.020141602"/>
+    </Item>
+    <Item>
+      <Variable name="y" value="0"/>
+      <Variable name="x" value="0.025177002"/>
+    </Item>
+    <Item>
+      <Variable name="y" value="2"/>
+      <Variable name="x" value="0.030212402"/>
+    </Item>
+    <Item>
+      <Variable name="y" value="0.2"/>
+      <Variable name="x" value="0.035247803"/>
+    </Item>
+    <Item>
+      <Variable name="y" value="1"/>
+      <Variable name="x" value="0.040283203"/>
+    </Item>
+    <Item>
+      <Variable name="y" value="-1.5"/>
+      <Variable name="x" value="0.045318604"/>
+    </Item>
+    <Item>
+      <Variable name="y" value="0.6"/>
+      <Variable name="x" value="0.050354004"/>
+    </Item>
+    <Item>
+      <Variable name="y" value="0.1"/>
+      <Variable name="x" value="0.055389404"/>
+    </Item>
+    <Item>
+      <Variable name="y" value="0.2"/>
+      <Variable name="x" value="0.060424805"/>
+    </Item>
+    <Item>
+      <Variable name="y" value="0.2"/>
+      <Variable name="x" value="0.065460205"/>
+    </Item>
+    <Item>
+      <Variable name="y" value="0.2"/>
+      <Variable name="x" value="0.070495605"/>
+    </Item>
+    <Item>
+      <Variable name="y" value="0.2"/>
+      <Variable name="x" value="0.075531006"/>
+    </Item>
+    <Item>
+      <Variable name="y" value="0.2"/>
+      <Variable name="x" value="0.080566406"/>
+    </Item>
+    <Item>
+      <Variable name="y" value="0.2"/>
+      <Variable name="x" value="0.085601807"/>
+    </Item>
+    <Item>
+      <Variable name="y" value="0.2"/>
+      <Variable name="x" value="0.090637207"/>
+    </Item>
+    <Item>
+      <Variable name="y" value="0.2"/>
+      <Variable name="x" value="0.095672607"/>
+    </Item>
+    <Item>
+      <Variable name="y" value="0.2"/>
+      <Variable name="x" value="0.100708008"/>
+    </Item>
+    <Item>
+      <Variable name="y" value="0.2"/>
+      <Variable name="x" value="0.105743408"/>
+    </Item>
+    <Item>
+      <Variable name="y" value="0.2"/>
+      <Variable name="x" value="0.110778809"/>
+    </Item>
+    <Item>
+      <Variable name="y" value="0.2"/>
+      <Variable name="x" value="0.115814209"/>
+    </Item>
+    <Item>
+      <Variable name="y" value="-0.8"/>
+      <Variable name="x" value="0.120849609"/>
+    </Item>
+    <Item>
+      <Variable name="y" value="1"/>
+      <Variable name="x" value="0.12588501"/>
+    </Item>
+    <Item>
+      <Variable name="y" value="0.164"/>
+      <Variable name="x" value="0.13092041"/>
+    </Item>
+    <Item>
+      <Variable name="y" value="0.9"/>
+      <Variable name="x" value="0.135955811"/>
+    </Item>
+    <Item>
+      <Variable name="y" value="0.29"/>
+      <Variable name="x" value="0.140991211"/>
+    </Item>
+    <Item>
+      <Variable name="y" value="1"/>
+      <Variable name="x" value="0.146026611"/>
+    </Item>
+    <Item>
+      <Variable name="y" value="-0.2"/>
+      <Variable name="x" value="0.151062012"/>
+    </Item>
+    <Item>
+      <Variable name="y" value="0.04"/>
+      <Variable name="x" value="0.156097412"/>
+    </Item>
+    <Item>
+      <Variable name="y" value="0.24"/>
+      <Variable name="x" value="0.161132813"/>
+    </Item>
+    <Item>
+      <Variable name="y" value="0.22"/>
+      <Variable name="x" value="0.166168213"/>
+    </Item>
+    <Item>
+      <Variable name="y" value="0.02"/>
+      <Variable name="x" value="0.171203613"/>
+    </Item>
+    <Item>
+      <Variable name="y" value="0.1"/>
+      <Variable name="x" value="0.176239014"/>
+    </Item>
+    <Item>
+      <Variable name="y" value="0.3"/>
+      <Variable name="x" value="0.171203613"/>
+    </Item>
+  </InputValues>
+  <OutputValues>
+    <Value>-3.524658</Value>
+    <Value>0.153999</Value>
+    <Value>0</Value>
+    <Value>6.301</Value>
+    <Value>0.019941</Value>
+    <Value>0.2033</Value>
+    <Value>1.9349</Value>
+    <Value>6.7908977</Value>
+    <Value>2.6784</Value>
+    <Value>4.301267</Value>
+    <Value>7.644479</Value>
+    <Value>3.4426275</Value>
+    <Value>-1.35055341556</Value>
+    <Value>0.419941338026</Value>
+    <Value>0.934942963676</Value>
+    <Value>2.84289219231</Value>
+  </OutputValues>
+  <Probabilities>
+    <Crossover>10</Crossover>
+    <Reproduction>10</Reproduction>
+    <Mutation>
+      <Node>100</Node>
+      <Truncated>100</Truncated>
+      <Increasing>100</Increasing>
+    </Mutation>
+  </Probabilities>
+  <Functions>
+    <Function>sin</Function>
+    <Function>cos</Function>
+    <Function>exp</Function>
+    <Function>log</Function>
+    <Function>+</Function>
+    <Function>-</Function>
+  </Functions>
+</Evolution>

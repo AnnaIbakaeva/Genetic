@@ -7,11 +7,12 @@ from constants import VARIABLE_SET
 
 class TreeCreator(object):
 
-    def __init__(self, depth):
+    def __init__(self, depth, tree_id):
         self.depth = depth
         self._tree_struct = []
         self._tree_map = {}
         self.tree = None
+        self._tree_id = tree_id
 
     def create(self, full):
         self._tree_map[0] = random.choice(function_set)
@@ -19,7 +20,7 @@ class TreeCreator(object):
             self._full_tree()
         else:
             self._grow_tree()
-        self.tree = Tree(self._tree_struct, self._tree_map)
+        self.tree = Tree(self._tree_struct, self._tree_map, self._tree_id)
         if not self.tree.check_var_existence():
             self._add_variable()
 

@@ -16,7 +16,8 @@ two_variable_function_set = [TwoVariableFunction('+'), TwoVariableFunction('-'),
 def get_terminal():
     var = randint(0, 1)
     if var == 1:
-        return uniform(-100, 100)
+        return uniform(-10, 10)
     return choice(VARIABLE_SET)
+
 
 
