@@ -8,10 +8,9 @@ from reproduction import Reproductor
 from random import choice, randint
 from constants import POPULATION_NUMBER, VARIABLE_VALUES_SET, TARGET_VALUES, MUTATION_PROBABILITY, \
     NODAL_MUTATION_PROBABILITY, TARGET_RESULT, CROSS_PROBABILITY, REPRODUCTION_PROBABILITY, SECONDARY_INPUTS, \
-    SECONDARY_OUTPUTS, ALLOWABLE_ERROR, VARIABLE_SET, MAX_DEPTH
+    SECONDARY_OUTPUTS, ALLOWABLE_ERROR
 from copy import deepcopy
 from math import isinf
-# from lxml import etree
 
 results = []
 
@@ -21,14 +20,13 @@ def generate_init_population():
     i = 0
     while i < POPULATION_NUMBER:
         depth = (i+100)/100 + 1
-        tree_creator = tree_creation.TreeCreator(depth, i)
+        tree_creator = tree_creation.TreeCreator(depth)
         if i % 2 == 0:
             tree_creator.create(False)
         else:
             tree_creator.create(True)
         t = tree_creator.tree
-        init_trees.append(Tree(t.init_tree, t.tree_map, t.id))
-        print(t.id)
+        init_trees.append(Tree(t.init_tree, t.tree_map))
         print(Tree.tree_map_to_string(t.tree_map))
         print(t.init_tree)
         print("")
@@ -96,12 +94,12 @@ def check_fitness(trees):
             one_tree.fitness = sum_error
             results.append(one_tree)
     print("MIN FITNESS RESULT: ", min(errors))
-    print ("AVERAGE FITNESS: ", sum(errors)/len(errors))
-    print ("length ", len(errors))
-    print ("results ")
+    print "AVERAGE FITNESS: ", sum(errors)/len(errors)
+    print "length ", len(errors)
+    print "results "
     for r in results:
-        print ("fitness ", r.fitness)
-        print (Tree.tree_map_to_string(r.tree_map))
+        print "fitness ", r.fitness
+        print Tree.tree_map_to_string(r.tree_map)
 
 
 def create_new_generation(population):
@@ -131,58 +129,6 @@ def select_best_result_with_secondary_data(trees):
     return trees[position]
 
 
-# ev = etree.Element("Evolution", xmlns="http://ns.adobe.com/air/application/1.5")
-#
-# etree.SubElement(ev, "PopulationNumber").text = str(POPULATION_NUMBER)
-# etree.SubElement(ev, "MaxDepth").text = str(MAX_DEPTH)
-# etree.SubElement(ev, "AllowableError").text = str(ALLOWABLE_ERROR)
-#
-# variables = etree.SubElement(ev, "Variables")
-# for variable in VARIABLE_SET:
-#     etree.SubElement(variables, "item").text = variable
-#
-# input_values = etree.SubElement(ev, "InputValues")
-# for item in VARIABLE_VALUES_SET:
-#     itemElm = etree.SubElement(input_values, "Item")
-#     for key in item.keys():
-#         etree.SubElement(itemElm, "Variable", name=key, value=str(item[key]))
-#
-# output_values = etree.SubElement(ev, "OutputValues")
-# for value in TARGET_VALUES:
-#     etree.SubElement(output_values, "Value").text = str(value)
-#
-# probabilities = etree.SubElement(ev, "Probabilities")
-# etree.SubElement(probabilities, "Crossover").text = str(CROSS_PROBABILITY)
-# etree.SubElement(probabilities, "Reproduction").text = str(REPRODUCTION_PROBABILITY)
-# mutation_probabilities = etree.SubElement(probabilities, "Mutation")
-# etree.SubElement(mutation_probabilities, "Node").text = str(NODAL_MUTATION_PROBABILITY)
-# etree.SubElement(mutation_probabilities, "Truncated").text = str(MUTATION_PROBABILITY)
-# etree.SubElement(mutation_probabilities, "Increasing").text = str(MUTATION_PROBABILITY)
-#
-# functions = etree.SubElement(ev, "Functions")
-# etree.SubElement(functions, "Function").text = "sin"
-# etree.SubElement(functions, "Function").text = "cos"
-# etree.SubElement(functions, "Function").text = "exp"
-# etree.SubElement(functions, "Function").text = "log"
-# etree.SubElement(functions, "Function").text = "+"
-# etree.SubElement(functions, "Function").text = "-"
-#
-# handle = etree.tostring(ev, pretty_print=True, encoding='utf-8', xml_declaration=True)
-# xml_file = open("evolution.xml", "w")
-# xml_file.writelines(handle)
-# xml_file.close()
-
-# d = {'q': '23', 'w':'23'}
-# tp = etree.parse('1.xml') # Парсинг файла
-# nodes = tp.xpath('/soft/os/item') # Открываем раздел
-# for node in nodes: # Перебираем элементы
-#     print node.tag,node.keys(),node.values()
-#     print 'name =',node.get('name') # Выводим параметр name
-#     print 'text =',[node.text] # Выводим текст элемента
-
-
-
-
 init_population = generate_init_population()
 result = False
 counter = 0
@@ -209,7 +155,7 @@ while counter < 500:
 print("End")
 if len(results) > 0:
     print("")
-    print ("MIN RESULT")
-    print (Tree.tree_map_to_string(min(results)))
-    print (min(results).init_tree)
-    print (min(results).fitness)
+    print "MIN RESULT"
+    print Tree.tree_map_to_string(min(results))
+    print min(results).init_tree
+    print min(results).fitness

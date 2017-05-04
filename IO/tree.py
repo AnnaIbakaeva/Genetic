@@ -9,8 +9,7 @@ from constants import MAX_DEPTH, VARIABLE_SET
 
 class Tree(object):
 
-    def __init__(self, tree_struct, tree_map, id):
-        self.id = id
+    def __init__(self, tree_struct, tree_map):
         self.init_tree = list(tree_struct)
         self.tree_map = dict(tree_map)
         self.tree_del = deepcopy(tree_struct)
@@ -63,7 +62,7 @@ class Tree(object):
             for v in self.init_tree[self.index]:
                 if v < len(self.init_tree):
                     deleted_vertexes = self._calculate_deleted_vertexes(v, self.init_tree[v], deleted_vertexes)
-            deleted_vertexes.sort(reverse=True)
+            deleted_vertexes.sort(None, None, True)
             for ver in deleted_vertexes:
                 del self.tree_del[ver]
             self.tree_del[self.index] = []

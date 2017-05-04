@@ -9,8 +9,8 @@ from constants import MAX_RECURSION
 class Crossover(object):
 
     def __init__(self, tree1, tree2):
-        self._parent1 = Tree(tree1.init_tree, tree1.tree_map, tree1.id)
-        self._parent2 = Tree(tree2.init_tree, tree2.tree_map. tree2.id)
+        self._parent1 = Tree(tree1.init_tree, tree1.tree_map)
+        self._parent2 = Tree(tree2.init_tree, tree2.tree_map)
         self.new_tree1 = Tree([], {})
         self.new_tree2 = Tree([], {})
         self.current_recursion_depth = 0
