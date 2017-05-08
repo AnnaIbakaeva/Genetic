@@ -541,17 +541,6 @@ def get_corner(img):
     return dst
 
 
-def get_image(name):
-    base_dir = os.path.dirname(__file__)
-    print(base_dir)
-    im_path = os.path.join("C:\\Users\\Anna\\Pictures", name)
-    img = cv2.imread(im_path)
-    if str(img) == None or img.size == 0:
-        raise SystemError("Failed to read %s" % im_path)
-    # cv2.imshow('image', img)
-    return img
-
-
 def feature_matcher(des1, des2):
 
     # create BFMatcher object
@@ -658,14 +647,47 @@ def contour_approximation(cnt):
     return approx
 
 
-img1 = get_image("4.jpg")
-img2 = img1
-img3 = img1
+def apply_clahe(img):
+    clahe = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(8,8))
+    cl1 = clahe.apply(img)
+    return cl1
+
+
+def numpy_furie(gray):
+    f = np.fft.fft2(gray)
+    fshift = np.fft.fftshift(f)
+    magnitude_spectrum = 20*np.log(np.abs(fshift))
+    return fshift
+
+
+def numpy_back_furie(fshift, gray):
+    rows, cols = gray.shape
+    crow,ccol = rows/2 , cols/2
+    fshift[crow-30:crow+30, ccol-30:ccol+30] = 0
+    f_ishift = np.fft.ifftshift(fshift)
+    img_back = np.fft.ifft2(f_ishift)
+    img_back = np.abs(img_back)
+    return img_back
+
+
+def foirier_transform(gray):
+    dft = cv2.dft(np.float32(img),flags = cv2.DFT_COMPLEX_OUTPUT)
+    dft_shift = np.fft.fftshift(dft)
+    return dft_shift
+
+
+def get_image(name):
+    base_dir = os.path.dirname(__file__)
+    print(base_dir)
+    im_path = os.path.join("C:\\Users\\Anna\\Pictures", name)
+    img = cv2.imread(im_path)
+    if str(img) == None or img.size == 0:
+        raise SystemError("Failed to read %s" % im_path)
+    # cv2.imshow('image', img)
+    return img
+
 # print(img1.shape)
 # img2 = get_image("11.jpg")
 # print(img2.shape)
 # print("img.size ", img.size)
 # cv2.waitKey(0)
-
-
-
