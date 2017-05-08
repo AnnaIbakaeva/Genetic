@@ -5,6 +5,8 @@ import math
 import collections
 import itertools
 
+from matplotlib import pyplot as plt
+
 import os
 
 # Color spaces
@@ -530,6 +532,15 @@ def surf_features(img, ht=400, mask=None):
     return kp, des
 
 
+def get_corner(img):
+    gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
+    gray = np.float32(gray)
+    dst = cv2.cornerHarris(gray,2,3,0.04)
+    # dst = cv2.dilate(dst,None)
+    # img[dst>0.01*dst.max()]=[0,0,255]
+    return dst
+
+
 def get_image(name):
     base_dir = os.path.dirname(__file__)
     print(base_dir)
@@ -541,11 +552,120 @@ def get_image(name):
     return img
 
 
+def feature_matcher(des1, des2):
 
-img = get_image("1.jpg")
-print("img.size ", img.size)
+    # create BFMatcher object
+    bf = cv2.BFMatcher(cv2.NORM_HAMMING, crossCheck=True)
+
+    # Match descriptors.
+    matches = bf.match(des1, des2)
+
+    # Sort them in the order of their distance.
+    matches = sorted(matches, key = lambda x:x.distance)
+
+    return matches
+
+
+def get_threshold(gray):
+    img = cv2.medianBlur(gray, 5)
+
+    ret, th1 = cv2.threshold(img, 127, 255, cv2.THRESH_BINARY)
+    th2 = cv2.adaptiveThreshold(img, 255, cv2.ADAPTIVE_THRESH_MEAN_C, cv2.THRESH_BINARY, 11, 2)
+    th3 = cv2.adaptiveThreshold(img, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 11, 2)
+
+
+def filter_image(img):
+    kernel = np.ones((5,5),np.float32)/25
+    dst = cv2.filter2D(img,-1,kernel)
+    return dst
+
+
+def box_blur_image(img):
+    blur = cv2.blur(img,(5,5))
+    return blur
+
+
+def gaussian_blur(img):
+    blur = cv2.GaussianBlur(img,(5,5),0)
+    return blur
+
+
+def median_blur(img):
+    median = cv2.medianBlur(img,5)
+    return median
+
+
+def bilaterial_filter(img):
+    blur = cv2.bilateralFilter(img,9,75,75)
+    return blur
+
+
+def erode_image(img):
+    """Удаляет шумы переднего фона
+    """
+    kernel = np.ones((15, 15), np.uint8)
+    erosion = cv2.erode(img, kernel, iterations = 1)
+    return erosion
+
+
+def dilate_image(img):
+    kernel = np.ones((5, 5),np.uint8)
+    dilation = cv2.dilate(img, kernel, iterations = 1)
+    return dilation
+
+
+def erosion_by_dilation(img):
+    kernel = np.ones((10, 10), np.uint8)
+    opening = cv2.morphologyEx(img, cv2.MORPH_OPEN, kernel)
+    return opening
+
+
+def laplacian_gradient(img):
+    laplacian = cv2.Laplacian(img,cv2.CV_64F)
+    return laplacian
+
+
+def sobelx_gradient(img):
+    sobelx = cv2.Sobel(img,cv2.CV_64F,1,0,ksize=5)
+    return sobelx
+
+
+def sobely_gradient(img):
+    sobely = cv2.Sobel(img,cv2.CV_64F,0,1,ksize=5)
+    return sobely
+
+
+def canny_edge_detection(img):
+    edges = cv2.Canny(img, 25, 50)
+    return edges
+
+
+def find_contours(img):
+    imgray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    ret,thresh = cv2.threshold(imgray, 127, 255, 0)
+    im2, contours, hierarchy = cv2.findContours(thresh, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+    return contours
+
+
+def get_moments(contour):
+    M = cv2.moments(contour)
+    return M
+
+
+def contour_approximation(cnt):
+    epsilon = 0.1*cv2.arcLength(cnt,True)
+    approx = cv2.approxPolyDP(cnt, epsilon, True)
+    return approx
+
+
+img1 = get_image("4.jpg")
+img2 = img1
+img3 = img1
+# print(img1.shape)
+# img2 = get_image("11.jpg")
+# print(img2.shape)
+# print("img.size ", img.size)
 # cv2.waitKey(0)
-hists = color_histograms(img)
-kp, des = surf_features(img)
-print("kp", kp)
-print("des ", des)
+
+
+
