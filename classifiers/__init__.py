@@ -35,6 +35,12 @@ def moments_get_skew(m):
     return m['mu11']/m['mu02']
 
 
+def get_centroid(m):
+    x = m['mu10']/m['mu00']
+    y = m['mu01']/m['mu00']
+    return x, y
+
+
 def color_histograms(img, histsize=None, mask=None, colorspace=CS_BGR):
     """Convenience wrapper for :cv2:`calcHist`.
 
@@ -146,176 +152,153 @@ def color_bgr_means(src, contour, bins=20):
     return (np.uint16(means[0]), np.uint16(means[1]))
 
 
-def get_largest_contour(img, mode, method):
-    """Get the largest contour from a binary image.
-
-    It is a simple wrapper for :meth:`cv2.findContours` to which `mode` and
-    `method` are passed. Returns None if no contours are found.
-    """
-    if len(img.shape) != 2:
-        raise ValueError("Input image must be binary")
-
-    contours, hierarchy = cv2.findContours(img, mode, method)
-    if len(contours) == 1:
-        return contours[0]
-
-    largest = None
-    area_max = 0
-    for i, contour in enumerate(contours):
-        area = cv2.contourArea(contour, oriented=False)
-        if area > area_max:
-            area_max = area
-            largest = contour
-    return largest
-
-
-def contour_properties(contours, properties='basic'):
-    """Measure properties of contours.
-
-    `contours` is a list of contours, or an array of contours as returned by
-    :meth:`cv2.findContours`. `properties` can be a comma-separated list of
-    strings, a list containing strings, the single string 'all', or the string
-    'basic'. If `properties` is the string 'all', all the shape measurements
-    are computed. If `properties` is not specified or if it is the string
-    'basic', only 'Area', 'Centroid', and 'BoundingBox' are computed. You can
-    calculate the following properties:
-
-    * ``Area``: The number of pixels in the contour.
-    * ``BoundingBox``: The smallest rectangle containing the contour.
-    * ``Centroid``: The center mass of the contour. This is computed by
-      fitting an ellipse.
-    * ``ConvexArea``: The number of pixels in the convex hull.
-    * ``ConvexHull``: The smalles convex polygon that can contain the contour.
-    * ``Eccentricity``: Scalar that specifies the eccentricity of the ellipse
-      that fits (in a least-squares sense) the contour. The eccentricity is the
-      ratio of the distance between the center and either focus of the ellipse
-      and its major axis length. The value is between 0 and 1.
-    * ``Ellipse``: The ellipse that fits (in a least-squares sense) the
-      contour. The ellipse is returned in the format (Centroid,
-      (MinorAxisLength, MajorAxisLength), Orientation). The ellipse can only
-      be computed if the contour consists of at least 5 points.
-    * ``EquivDiameter``: Scalar that specifies the diameter of a circle with
-      the same area as the contour. Computed as sqrt(4*Area/pi).
-    * ``Extent``: Scalar that specifies the ratio of the contour area to the
-      bounding box area.
-    * ``Extrema``: 4-by-2 matrix that specifies the extrema points in the
-      contour. Each row of the matrix contains the x- and y-coordinates of one
-      of the points. The format of the vector is [top right bottom left].
-    * ``MinorAxisLength``: Scalar specifying the length (in pixels) of the
-      minor axis of the ellipse.
-    * ``MajorAxisLength``: Scalar specifying the length (in pixels) of the
-      major axis of the ellipse
-    * ``Orientation``: Scalar specifying the angle (in degrees ranging from 0
-      to 179 degrees) between the y-axis and the major axis of the ellipse in
-      clockwise direction.
-    * ``Perimeter``: Scalar specifying the distance around the boundary of the
-      contour.
-    * ``Solidity``: Scalar specifying the proportion of the pixels in the
-      convex hull that are also in the region. Computed as Area/ConvexArea.
-
-    If a property could not be calculated, its value will be None.
-
-    See also: http://www.mathworks.com/help/images/ref/regionprops.html
-    """
-    if len(contours) == 0:
-        raise ValueError("List of contours not set")
-    known_names = ('Area', 'BoundingBox', 'BoundingRect', 'Centroid',
-        'ConvexArea', 'ConvexHull', 'Eccentricity', 'Ellipse',
-        'EquivDiameter', 'Extent', 'Extrema', 'MinorAxisLength',
-        'MajorAxisLength', 'Orientation', 'Perimeter', 'Solidity')
-    if isinstance(properties, str):
-        if properties == 'basic':
-            properties = ('Area', 'Centroid', 'BoundingBox')
-        elif properties == 'all':
-            properties = known_names
-        else:
-            properties = properties.split(',')
-    if len(properties) == 0:
-        raise ValueError("List of properties not set")
-    for p in properties:
-        if not p in known_names:
-            raise ValueError("Unknown property '%s'" % p)
-
-    stats = []
-    for cnt in contours:
-        # Call cv2.fitEllipse if needed.
-        match = ('Centroid', 'Eccentricity', 'Ellipse', 'MinorAxisLength',
-        'MajorAxisLength', 'Orientation')
-        if any(p in match for p in properties):
-            if len(cnt) >= 5:
-                ellipse = cv2.fitEllipse(cnt)
-                centroid, (b, a), angle = ellipse
-                x,y = centroid
-                centroid = (int(x), int(y))
-            else:
-                ellipse = centroid = b = a = angle = None
-
-        # Call cv2.convexHull if needed.
-        match = ('ConvexHull', 'ConvexArea', 'Solidity')
-        if any(p in match for p in properties):
-            hull = cv2.convexHull(cnt)
-
-        # Call cv2.contourArea if needed.
-        match = ('Area', 'EquivDiameter', 'Extent')
-        if any(p in match for p in properties):
-            area = cv2.contourArea(cnt)
-            if not area > 0:
-                continue
-
-        # Call cv2.minAreaRect if needed.
-        match = ('BoundingBox', 'Extent')
-        if any(p in match for p in properties):
-            min_area_rect = cv2.minAreaRect(cnt)
-
-        props = {}
-        for name in properties:
-            val = None
-            if name == 'Area':
-                val = area
-            elif name == 'BoundingBox':
-                val = min_area_rect
-            elif name == 'BoundingRect':
-                val = cv2.boundingRect(cnt)
-            elif name == 'Centroid':
-                val = centroid
-            elif name == 'ConvexArea':
-                val = cv2.contourArea(hull)
-            elif name == 'ConvexHull':
-                val = hull
-            elif name == 'Eccentricity':
-                if ellipse == None:
-                    val = None
-                else:
-                    f = math.sqrt(math.pow(a, 2) - math.pow(b, 2))
-                    val = float(f) / a
-            elif name == 'Ellipse':
-                val = ellipse
-            elif name == 'EquivDiameter':
-                val = math.sqrt(4 * area / math.pi)
-            elif name == 'Extent':
-                (x,y), (w,h), _ = min_area_rect
-                rect_area = w * h
-                val = float(area) / rect_area
-            elif name == 'Extrema':
-                topmost     = tuple(cnt[cnt[:,:,1].argmin()][0])
-                bottommost  = tuple(cnt[cnt[:,:,1].argmax()][0])
-                leftmost    = tuple(cnt[cnt[:,:,0].argmin()][0])
-                rightmost   = tuple(cnt[cnt[:,:,0].argmax()][0])
-                val = (topmost, rightmost, bottommost, leftmost)
-            elif name == 'MinorAxisLength':
-                val = b
-            elif name == 'MajorAxisLength':
-                val = a
-            elif name == 'Orientation':
-                val = angle
-            elif name == 'Perimeter':
-                val = cv2.arcLength(cnt, closed=True)
-            elif name == 'Solidity':
-                val = float(area) / cv2.contourArea(hull)
-
-            props[name] = val
-        stats.append(props)
-    return stats
+# def contour_properties(contours, properties='basic'):
+#     """Measure properties of contours.
+#
+#     `contours` is a list of contours, or an array of contours as returned by
+#     :meth:`cv2.findContours`. `properties` can be a comma-separated list of
+#     strings, a list containing strings, the single string 'all', or the string
+#     'basic'. If `properties` is the string 'all', all the shape measurements
+#     are computed. If `properties` is not specified or if it is the string
+#     'basic', only 'Area', 'Centroid', and 'BoundingBox' are computed. You can
+#     calculate the following properties:
+#
+#     * ``Area``: The number of pixels in the contour.
+#     * ``BoundingBox``: The smallest rectangle containing the contour.
+#     * ``Centroid``: The center mass of the contour. This is computed by
+#       fitting an ellipse.
+#     * ``ConvexArea``: The number of pixels in the convex hull.
+#     * ``ConvexHull``: The smalles convex polygon that can contain the contour.
+#     * ``Eccentricity``: Scalar that specifies the eccentricity of the ellipse
+#       that fits (in a least-squares sense) the contour. The eccentricity is the
+#       ratio of the distance between the center and either focus of the ellipse
+#       and its major axis length. The value is between 0 and 1.
+#     * ``Ellipse``: The ellipse that fits (in a least-squares sense) the
+#       contour. The ellipse is returned in the format (Centroid,
+#       (MinorAxisLength, MajorAxisLength), Orientation). The ellipse can only
+#       be computed if the contour consists of at least 5 points.
+#     * ``EquivDiameter``: Scalar that specifies the diameter of a circle with
+#       the same area as the contour. Computed as sqrt(4*Area/pi).
+#     * ``Extent``: Scalar that specifies the ratio of the contour area to the
+#       bounding box area.
+#     * ``Extrema``: 4-by-2 matrix that specifies the extrema points in the
+#       contour. Each row of the matrix contains the x- and y-coordinates of one
+#       of the points. The format of the vector is [top right bottom left].
+#     * ``MinorAxisLength``: Scalar specifying the length (in pixels) of the
+#       minor axis of the ellipse.
+#     * ``MajorAxisLength``: Scalar specifying the length (in pixels) of the
+#       major axis of the ellipse
+#     * ``Orientation``: Scalar specifying the angle (in degrees ranging from 0
+#       to 179 degrees) between the y-axis and the major axis of the ellipse in
+#       clockwise direction.
+#     * ``Perimeter``: Scalar specifying the distance around the boundary of the
+#       contour.
+#     * ``Solidity``: Scalar specifying the proportion of the pixels in the
+#       convex hull that are also in the region. Computed as Area/ConvexArea.
+#
+#     If a property could not be calculated, its value will be None.
+#
+#     See also: http://www.mathworks.com/help/images/ref/regionprops.html
+#     """
+#     if len(contours) == 0:
+#         raise ValueError("List of contours not set")
+#     known_names = ('Area', 'BoundingBox', 'BoundingRect', 'Centroid',
+#         'ConvexArea', 'ConvexHull', 'Eccentricity', 'Ellipse',
+#         'EquivDiameter', 'Extent', 'Extrema', 'MinorAxisLength',
+#         'MajorAxisLength', 'Orientation', 'Perimeter', 'Solidity')
+#     if isinstance(properties, str):
+#         if properties == 'basic':
+#             properties = ('Area', 'Centroid', 'BoundingBox')
+#         elif properties == 'all':
+#             properties = known_names
+#         else:
+#             properties = properties.split(',')
+#     if len(properties) == 0:
+#         raise ValueError("List of properties not set")
+#     for p in properties:
+#         if not p in known_names:
+#             raise ValueError("Unknown property '%s'" % p)
+#
+#     stats = []
+#     for cnt in contours:
+#         # Call cv2.fitEllipse if needed.
+#         match = ('Centroid', 'Eccentricity', 'Ellipse', 'MinorAxisLength',
+#         'MajorAxisLength', 'Orientation')
+#         if any(p in match for p in properties):
+#             if len(cnt) >= 5:
+#                 ellipse = cv2.fitEllipse(cnt)
+#                 centroid, (b, a), angle = ellipse
+#                 x,y = centroid
+#                 centroid = (int(x), int(y))
+#             else:
+#                 ellipse = centroid = b = a = angle = None
+#
+#         # Call cv2.convexHull if needed.
+#         match = ('ConvexHull', 'ConvexArea', 'Solidity')
+#         if any(p in match for p in properties):
+#             hull = cv2.convexHull(cnt)
+#
+#         # Call cv2.contourArea if needed.
+#         match = ('Area', 'EquivDiameter', 'Extent')
+#         if any(p in match for p in properties):
+#             area = cv2.contourArea(cnt)
+#             if not area > 0:
+#                 continue
+#
+#         # Call cv2.minAreaRect if needed.
+#         match = ('BoundingBox', 'Extent')
+#         if any(p in match for p in properties):
+#             min_area_rect = cv2.minAreaRect(cnt)
+#
+#         props = {}
+#         for name in properties:
+#             val = None
+#             if name == 'Area':
+#                 val = area
+#             elif name == 'BoundingBox':
+#                 val = min_area_rect
+#             elif name == 'BoundingRect':
+#                 val = cv2.boundingRect(cnt)
+#             elif name == 'Centroid':
+#                 val = centroid
+#             elif name == 'ConvexArea':
+#                 val = cv2.contourArea(hull)
+#             elif name == 'ConvexHull':
+#                 val = hull
+#             elif name == 'Eccentricity':
+#                 if ellipse == None:
+#                     val = None
+#                 else:
+#                     f = math.sqrt(math.pow(a, 2) - math.pow(b, 2))
+#                     val = float(f) / a
+#             elif name == 'Ellipse':
+#                 val = ellipse
+#             elif name == 'EquivDiameter':
+#                 val = math.sqrt(4 * area / math.pi)
+#             elif name == 'Extent':
+#                 (x,y), (w,h), _ = min_area_rect
+#                 rect_area = w * h
+#                 val = float(area) / rect_area
+#             elif name == 'Extrema':
+#                 topmost     = tuple(cnt[cnt[:,:,1].argmin()][0])
+#                 bottommost  = tuple(cnt[cnt[:,:,1].argmax()][0])
+#                 leftmost    = tuple(cnt[cnt[:,:,0].argmin()][0])
+#                 rightmost   = tuple(cnt[cnt[:,:,0].argmax()][0])
+#                 val = (topmost, rightmost, bottommost, leftmost)
+#             elif name == 'MinorAxisLength':
+#                 val = b
+#             elif name == 'MajorAxisLength':
+#                 val = a
+#             elif name == 'Orientation':
+#                 val = angle
+#             elif name == 'Perimeter':
+#                 val = cv2.arcLength(cnt, closed=True)
+#             elif name == 'Solidity':
+#                 val = float(area) / cv2.contourArea(hull)
+#
+#             props[name] = val
+#         stats.append(props)
+#     return stats
 
 
 def shape_outline(contour, k=10):
@@ -397,7 +380,7 @@ def deskew(img, dsize, mask=None):
 def get_major_defects(contour):
     """Returns the convexity defects of a contour sorted by severity."""
     # Get convex hull and defects.
-    hull = cv2.convexHull(contour, returnPoints = False)
+    hull = cv2.convexHull(contour, returnPoints=False)
     defects = cv2.convexityDefects(contour, hull)
 
     # Get the defects and sort them decreasingly.
@@ -434,69 +417,6 @@ def naik_murthy_linear(img):
                 b1 = minval[k] * -1.0
                 yn = a1 * (x[k] + b1)
                 itemset((i,j,k), yn)
-    y *= 255
-    return np.uint8(y)
-
-
-def naik_murthy_nonlinear(img, f, *args, **kwargs):
-    """Hue-preserving color image enhancement.
-
-    Provides nonlinear hue preserving transformation without gamut problem,
-    provided that linear transformation is initially applied on each of the
-    pixels. [1]
-
-    Image source `img` must be in the BGR color space. Argument `f` can be
-    any enhancement function for which the first argument is the pixel
-    intensity, followed by optional arguments `args` or keyword arguments
-    `kwargs`. If keyword argument `fmap` is set to True, `f` must be a 2d
-    ``numpy.ndarray`` with the same shape as `img`. In this case, `f` is
-    used as a lookup table for pixel intensities after enhancement.
-
-    1. Naik, S. K. & Murthy, C. A. Hue-preserving color image enhancement
-       without gamut problem. IEEE Trans. Image Process. 12, 1591–8 (2003).
-    """
-    fmap = kwargs.get('fmap')
-    if fmap:
-        if not isinstance(f, np.ndarray) or f.shape != img.shape[:2]:
-            raise ValueError("Invalid array format for `f`")
-
-    y = img / 255.0
-    itemset = y.itemset
-    for i in range(img.shape[0]):
-        for j in range(img.shape[1]):
-            x = y[i,j]
-            l = x.sum()
-
-            assert 0 <= l <= 3, "Pixel values must be in the range 0..255"
-
-            # Leave black pixels as is (work around zero division error).
-            if l == 0:
-                continue
-
-            # Apply the enhancement function.
-            if not fmap:
-                fl = f(l, *args, **kwargs)
-            else:
-                fl = f.item((i,j))
-
-            # Enhancing the color levels linearly.
-            alpha = float(fl) / l
-            if alpha <= 1:
-                y[i,j] *= alpha
-            else:
-                # Transform the BGR color vector to CMY.
-                x = 1.0 - x
-
-                # Set new scaling factor which is <= 1.
-                alpha = (3 - fl) / (3 - l)
-                assert alpha <= 1, "Scaling factor must be <= 1, found %s" % alpha
-
-                # Scale vector by factor `alpha`.
-                x *= alpha
-
-                # Transform back to BGR space.
-                y[i,j] = 1.0 - x
-
     y *= 255
     return np.uint8(y)
 
@@ -671,9 +591,15 @@ def numpy_back_furie(fshift, gray):
 
 
 def foirier_transform(gray):
-    dft = cv2.dft(np.float32(img),flags = cv2.DFT_COMPLEX_OUTPUT)
+    dft = cv2.dft(np.float32(gray),flags = cv2.DFT_COMPLEX_OUTPUT)
     dft_shift = np.fft.fftshift(dft)
     return dft_shift
+
+
+def find_circles(img):
+    circles = cv2.HoughCircles(img,cv2.HOUGH_GRADIENT,1,20,
+                            param1=50,param2=30,minRadius=0,maxRadius=0)
+    return circles
 
 
 def get_image(name):
