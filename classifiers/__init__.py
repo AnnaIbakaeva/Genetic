@@ -8,10 +8,21 @@ from lxml import etree
 def parse_xml(xml_files):
     for file in xml_files:
         tp = etree.parse(file) # Парсинг файла
-        for record in tp.xpath('//CXRreadingSession'):
-            print record.xpath("./@tag")[0]
-            for x in record.xpath("./subfield/text()"):
-                print "\t", x
+        root = tp.getroot()
+        for element in root.iter("{http://www.nih.gov/idri}unblindedRead"):
+            # print("%s - %s" % (element.tag, element.text))
+            # print(len(element))
+            for subElem in element.iter("{http://www.nih.gov/idri}imageSOP_UID"):
+                print("%s - %s" % (subElem.tag, subElem.text))
+        # for element in root.iter("{http://www.nih.gov/idri}imageSOP_UID"):
+        #     print("%s - %s" % (element.tag, element.text))
+        # nodes = tp.xpath('\{http://www.nih.gov/idri}CXRreadingSession')
+        # print(len(nodes))
+        # for record in tp.xpath('\IdriReadMessage\CXRreadingSession'): #/unblindedRead/roi/imageSOP_UID'):
+        #     print record.tag, record.keys(), record.values()
+        #     print record.xpath("./@tag")[0]
+        #     for x in record.xpath("./subfield/text()"):
+        #         print "\t", x
         # nodes = tp.xpath('/soft/os/item') # Открываем раздел
         # for node in nodes: # Перебираем элементы
         #     print node.tag,node.keys(),node.values()
@@ -54,6 +65,6 @@ def get_dcm_imgs(files):
 # dcms, xmls = get_files("E:\\Study\\Master\\Canser_images\\DOI")
 # imgs = get_dcm_imgs(dcms)
 
-parse_xml(["E:\\Study\\Master\\Canser_images\\DOI\\LIDC-IDRI-0001\\"
-           "1.3.6.1.4.1.14519.5.2.1.6279.6001.175012972118199124641098335511\\"
-           "1.3.6.1.4.1.14519.5.2.1.6279.6001.141365756818074696859567662357\\068.xml"])
+parse_xml(["E://Study//Master//Canser_images//DOI//LIDC-IDRI-0001//"
+           "1.3.6.1.4.1.14519.5.2.1.6279.6001.175012972118199124641098335511//"
+           "1.3.6.1.4.1.14519.5.2.1.6279.6001.141365756818074696859567662357//068.xml"])
