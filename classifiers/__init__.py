@@ -6,28 +6,19 @@ from lxml import etree
 
 
 def parse_xml(xml_files):
+    uids = []
     for file in xml_files:
+        # print(file)
         tp = etree.parse(file) # Парсинг файла
         root = tp.getroot()
-        for element in root.iter("{http://www.nih.gov/idri}unblindedRead"):
-            # print("%s - %s" % (element.tag, element.text))
-            # print(len(element))
-            for subElem in element.iter("{http://www.nih.gov/idri}imageSOP_UID"):
-                print("%s - %s" % (subElem.tag, subElem.text))
-        # for element in root.iter("{http://www.nih.gov/idri}imageSOP_UID"):
-        #     print("%s - %s" % (element.tag, element.text))
-        # nodes = tp.xpath('\{http://www.nih.gov/idri}CXRreadingSession')
-        # print(len(nodes))
-        # for record in tp.xpath('\IdriReadMessage\CXRreadingSession'): #/unblindedRead/roi/imageSOP_UID'):
-        #     print record.tag, record.keys(), record.values()
-        #     print record.xpath("./@tag")[0]
-        #     for x in record.xpath("./subfield/text()"):
-        #         print "\t", x
-        # nodes = tp.xpath('/soft/os/item') # Открываем раздел
-        # for node in nodes: # Перебираем элементы
-        #     print node.tag,node.keys(),node.values()
-        #     print 'name =',node.get('name') # Выводим параметр name
-        #     print 'text =',[node.text] # Выводим текст элемента
+        prefix = root.get("{http://www.w3.org/2001/XMLSchema-instance}schemaLocation")
+        prefix = prefix.split()[0]
+
+        for element in root.iter("{%s}unblindedRead" % prefix, "{%s}unblindedReadNodule" % prefix):
+            for subElem in element.iter("{%s}imageSOP_UID" % prefix):
+                # print("%s - %s" % (subElem.tag, subElem.text))
+                uids.append(subElem.text)
+    return uids
 
 
 def get_files(root_path):
@@ -37,6 +28,7 @@ def get_files(root_path):
     for dir in dirs:
         my_path = join(root_path, dir)
         inner_dirs = listdir(my_path)
+        i = 0
         for in_dir in inner_dirs:
             file_path = join(my_path, in_dir)
             for d in listdir(file_path):
@@ -48,8 +40,9 @@ def get_files(root_path):
                             dcm_files.append(end_file)
                         if end_file.endswith(".xml"):
                             xml_files.append(end_file)
-                    if len(dcm_files) > 100000:
-                        break
+                i += 1
+                if i > 2:
+                    return dcm_files, xml_files
     return dcm_files, xml_files
 
 
@@ -57,14 +50,27 @@ def get_dcm_imgs(files):
     dcm_images = []
     for file in files:
         ds = dicom.read_file(file)
+        # print(ds.SOPInstanceUID)
         dcm_images.append(ds)
+        # print(len(dcm_images))
     return dcm_images
 
 
-# root_path = "E:\\Study\\Master\\Canser_images\\DOI"
-# dcms, xmls = get_files("E:\\Study\\Master\\Canser_images\\DOI")
-# imgs = get_dcm_imgs(dcms)
+root_path = "E:\\Study\\Master\\Canser_images\\DOI"
+dcms, xmls = get_files("E:\\Study\\Master\\Canser_images\\DOI")
+print("Files received ", len(dcms), len(xmls))
+imgs = get_dcm_imgs(dcms)
+print("Images recived")
+imgs_uids = parse_xml(xmls)
 
-parse_xml(["E://Study//Master//Canser_images//DOI//LIDC-IDRI-0001//"
-           "1.3.6.1.4.1.14519.5.2.1.6279.6001.175012972118199124641098335511//"
-           "1.3.6.1.4.1.14519.5.2.1.6279.6001.141365756818074696859567662357//068.xml"])
+nodule_imgs= []
+nonnodule_imgs = []
+for img in imgs:
+
+    if img.SOPInstanceUID in imgs_uids:
+        nodule_imgs.append(img)
+    else:
+        nonnodule_imgs.append(img)
+
+print("Nodule ", len(nodule_imgs))
+print("Nonnodule ", len(nonnodule_imgs))
