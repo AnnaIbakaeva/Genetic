@@ -244,34 +244,6 @@ def get_major_defects(contour):
     return sorted(major_defects, reverse=True)
 
 
-def naik_murthy_linear(img):
-    """Hue-preserving color image enhancement.
-
-    Provides a hue preserving linear transformation with maximum possible
-    contrast. [1]
-
-    1. Naik, S. K. & Murthy, C. A. Hue-preserving color image enhancement
-       without gamut problem. IEEE Trans. Image Process. 12, 1591–8 (2003).
-    """
-    if img.ndim != 3:
-        raise ValueError("Expected a BGR image")
-
-    y = img / 255.0
-    maxval = np.amax(y, (1,0))
-    minval = np.amin(y, (1,0))
-    itemset = y.itemset
-    for i in range(img.shape[0]):
-        for j in range(img.shape[1]):
-            x = y[i,j]
-            for k in range(3):
-                a1 = 1.0 / maxval[k]
-                b1 = minval[k] * -1.0
-                yn = a1 * (x[k] + b1)
-                itemset((i,j,k), yn)
-    y *= 255
-    return np.uint8(y)
-
-
 def s_type_enhancement(x, delta1=0, delta2=1, m=0.5, n=2):
     """S-type enhancement function.
 
@@ -444,11 +416,32 @@ def numpy_back_furie(fshift, img):
 
 
 def foirier_transform(img):
-    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-    dft = cv2.dft(np.float32(gray),flags = cv2.DFT_COMPLEX_OUTPUT)
+    # gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    dft = cv2.dft(np.float32(img),flags = cv2.DFT_COMPLEX_OUTPUT)
     dft_shift = np.fft.fftshift(dft)
     return dft_shift
 
+
+def fourier_back_transfrom(img, dft_shift):
+    rows, cols = img.shape
+    crow,ccol = rows/2 , cols/2
+
+    # create a mask first, center square is 1, remaining all zeros
+    mask = np.zeros((rows,cols,2),np.uint8)
+    mask[crow-30:crow+30, ccol-30:ccol+30] = 1
+
+    # apply mask and inverse DFT
+    fshift = dft_shift*mask
+    f_ishift = np.fft.ifftshift(fshift)
+    img_back = cv2.idft(f_ishift)
+    img_back = cv2.magnitude(img_back[:,:,0],img_back[:,:,1])
+    return img_back
+
+
+def fourier_and_back_transform(img):
+    shift = foirier_transform(img)
+    back_image = fourier_back_transfrom(img, shift)
+    return back_image
 
 # def find_circles(img):
 #     circles = cv2.HoughCircles(img,cv2.HOUGH_GRADIENT,1,20,
