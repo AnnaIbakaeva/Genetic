@@ -4,6 +4,7 @@ import cv2
 import math
 import collections
 import itertools
+from copy import deepcopy
 
 from matplotlib import pyplot as plt
 
@@ -352,6 +353,24 @@ def erosion_by_dilation(img):
     return opening
 
 
+def get_features(img):
+    features_list = []
+    features_list.append(fourier_and_back_transform(deepcopy(img)))
+    print("fourie completed")
+    features_list.append(apply_clahe(deepcopy(img)))
+    print("clahe completed")
+    # features_list.append(canny_edge_detection(deepcopy(img)))
+    features_list.append(sobelx_gradient(deepcopy(img)))
+    print("sobel x completed")
+    features_list.append(sobely_gradient(deepcopy(img)))
+    print("sobel y completed")
+    features_list.append(laplacian_gradient(deepcopy(img)))
+    print("laplacian completed")
+    contours = find_contours(deepcopy(img))
+    print("contours completed")
+    return features_list
+
+
 def laplacian_gradient(img):
     laplacian = cv2.Laplacian(img,cv2.CV_64F)
     return laplacian
@@ -373,8 +392,9 @@ def canny_edge_detection(img):
 
 
 def find_contours(img):
-    imgray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-    ret,thresh = cv2.threshold(imgray, 127, 255, 0)
+    imgbgr = cv2.cvtColor(img, cv2.COLOR_GRAY2BGR)
+    gray = cv2.cvtColor(imgbgr, cv2.COLOR_BGR2GRAY)
+    ret,thresh = cv2.threshold(gray, 127, 255, 0)
     im2, contours, hierarchy = cv2.findContours(thresh, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
     return contours
 
@@ -443,21 +463,19 @@ def fourier_and_back_transform(img):
     back_image = fourier_back_transfrom(img, shift)
     return back_image
 
-# def find_circles(img):
-#     circles = cv2.HoughCircles(img,cv2.HOUGH_GRADIENT,1,20,
-#                             param1=50,param2=30,minRadius=0,maxRadius=0)
-#     return circles
 
-
-def get_image(name):
-    base_dir = os.path.dirname(__file__)
-    print(base_dir)
-    im_path = os.path.join("C:\\Users\\Anna\\Pictures", name)
+def get_image(im_path):
+    # im_path = os.path.join("C:\\Users\\Anna\\Pictures", name)
     img = cv2.imread(im_path)
     if str(img) == None or img.size == 0:
         raise SystemError("Failed to read %s" % im_path)
     # cv2.imshow('image', img)
     return img
+
+
+
+
+
 
 # print(img1.shape)
 # img2 = get_image("11.jpg")
