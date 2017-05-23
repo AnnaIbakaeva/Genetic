@@ -3,6 +3,7 @@ import dicom
 from os import listdir
 from os.path import isfile, join
 from lxml import etree
+from PIL import Image
 
 
 def parse_xml(xml_files):
@@ -73,6 +74,16 @@ def get_dcm_imgs(files):
 def get_dmc_image(file):
     ds = dicom.read_file(file)
     return ds
+
+
+def convert_to_jpg(path):
+    for file in listdir(path):
+        filepath = join(path, file)
+        if isfile(filepath):
+            ds = get_dmc_image(filepath)
+            im = Image.fromarray(ds.pixel_array)
+            im.convert("RGB").save(join(path, ds.SOPInstanceUID + ".jpg"))
+
 
 
 def main():

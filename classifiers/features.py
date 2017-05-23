@@ -366,7 +366,7 @@ def get_features(img):
     print("sobel y completed")
     features_list.append(laplacian_gradient(deepcopy(img)))
     print("laplacian completed")
-    contours = find_contours(deepcopy(img))
+    contours = find_contours(np.ndarray.astype(img, 'float32'))
     print("contours completed")
     return features_list
 
@@ -392,10 +392,10 @@ def canny_edge_detection(img):
 
 
 def find_contours(img):
-    imgbgr = cv2.cvtColor(img, cv2.COLOR_GRAY2BGR)
-    gray = cv2.cvtColor(imgbgr, cv2.COLOR_BGR2GRAY)
-    ret,thresh = cv2.threshold(gray, 127, 255, 0)
-    im2, contours, hierarchy = cv2.findContours(thresh, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+    ret,thresh = cv2.threshold(img, 127, 255, cv2.THRESH_BINARY)
+    print(ret)
+    print(thresh)
+    im2, contours, hierarchy = cv2.findContours(thresh, cv2.RETR_EXTERNAL , cv2.CHAIN_APPROX_SIMPLE)
     return contours
 
 
