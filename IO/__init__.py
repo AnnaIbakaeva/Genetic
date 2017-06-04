@@ -6,32 +6,41 @@ from polish_notation import get_polish_notation, calculate_polish_notation, nota
 from functions import TwoVariableFunction, Function
 from reproduction import Reproductor
 from random import choice, randint
-from constants import POPULATION_NUMBER, VARIABLE_VALUES_SET, TARGET_VALUES, MUTATION_PROBABILITY, \
-    NODAL_MUTATION_PROBABILITY, TARGET_RESULT, CROSS_PROBABILITY, REPRODUCTION_PROBABILITY, SECONDARY_INPUTS, \
-    SECONDARY_OUTPUTS, ALLOWABLE_ERROR
+from constants import VARIABLE_VALUES_SET, MUTATION_PROBABILITY, \
+    TREE_NUMBER, FOREST_NUMBER, ITERATIONS_COUNT,\
+    NODAL_MUTATION_PROBABILITY, TARGET_RESULT, CROSS_PROBABILITY, REPRODUCTION_PROBABILITY, ALLOWABLE_ERROR
 from copy import deepcopy
 from math import isinf
+from  classifiers.features import get_features
+from classifiers.filesworker import get_free_images, get_nodule_images
+from  classifiers.abstract_classifier import KnnClassifier, SvmClassifier, BayesClassifier, \
+    DecisionTreesClassifier, AnnClassifier
 
 results = []
 
 
 def generate_init_population():
-    init_trees = []
+    forests = []
     i = 0
-    while i < POPULATION_NUMBER:
-        depth = (i+100)/100 + 1
-        tree_creator = tree_creation.TreeCreator(depth)
-        if i % 2 == 0:
-            tree_creator.create(False)
-        else:
-            tree_creator.create(True)
-        t = tree_creator.tree
-        init_trees.append(Tree(t.init_tree, t.tree_map))
-        print(Tree.tree_map_to_string(t.tree_map))
-        print(t.init_tree)
-        print("")
+    while i < FOREST_NUMBER:
+        trees = []
+        j = 0
+        while j < TREE_NUMBER:
+            depth = (j+1)/2 + 1 # (j+100)/100 + 1
+            tree_creator = tree_creation.TreeCreator(depth)
+            if j % 2 == 0:
+                tree_creator.create(False)
+            else:
+                tree_creator.create(True)
+            t = tree_creator.tree
+            trees.append(Tree(t.init_tree, t.tree_map))
+            print(Tree.tree_map_to_string(t.tree_map))
+            print(t.init_tree)
+            print("")
+            j += 1
+        forests.append(trees)
         i += 1
-    return list(init_trees)
+    return list(forests)
 
 
 def reproduce(trees):
@@ -117,45 +126,74 @@ def create_new_generation(population):
     return new_population
 
 
-def select_best_result_with_secondary_data(trees):
-    errors = []
-    for individual in trees:
-        fitness = 0
-        for i in range(0, len(SECONDARY_INPUTS)):
-            fitness += Reproductor.get_error(individual, SECONDARY_OUTPUTS[i], SECONDARY_INPUTS[i])
-        errors.append(fitness)
-    best_fitness = min(errors)
-    position = errors.index(best_fitness)
-    return trees[position]
+def get_learned_classifiers():
+    classifiers = []
+    nodule_imgs = get_nodule_images()
+    data = []
+    target = []
+    for img in nodule_imgs:
+        fs = get_features(img)
+        data.append(fs)
+        target.append(1)
+    print("nodule features get")
+
+    free_imgs = get_free_images()
+    for img in free_imgs:
+        fs = get_features(img)
+        data.append(fs)
+        target.append(0)
+    print("free features get")
+
+    classifiers.append(KnnClassifier(data, target))
+    classifiers.append(SvmClassifier(data, target))
+    classifiers.append(BayesClassifier(data, target))
+    classifiers.append(DecisionTreesClassifier(data,target))
+    classifiers.append(AnnClassifier(data,target))
+    return classifiers
+
+# def select_best_result_with_secondary_data(trees):
+#     errors = []
+#     for individual in trees:
+#         fitness = 0
+#         for i in range(0, len(SECONDARY_INPUTS)):
+#             fitness += Reproductor.get_error(individual, SECONDARY_OUTPUTS[i], SECONDARY_INPUTS[i])
+#         errors.append(fitness)
+#     best_fitness = min(errors)
+#     position = errors.index(best_fitness)
+#     return trees[position]
+
+def main():
+    classifiers = get_learned_classifiers()
+    init_population = generate_init_population()
+    result = False
+    counter = 0
+    # while counter < ITERATIONS_COUNT:
+    #     print("************************************************************************************************************"
+    #           "************************************************************************************************************")
+    #     print(counter)
+    #     best_individuals = deepcopy(reproduce(init_population))
+    #
+    #     if len(best_individuals) == 0:
+    #         print("Reproduction empty")
+    #         break
+    #
+    #     new_generation = deepcopy(create_new_generation(best_individuals))
+    #     mutated_trees = deepcopy(mutate_trees(new_generation))
+    #     check_fitness(mutated_trees)
+    #     init_population = deepcopy(mutated_trees)
+    #
+    #     if len(init_population) == 0:
+    #         print("Empty population")
+    #         break
+    #     counter += 1
+    #
+    # print("End")
+    # if len(results) > 0:
+    #     print("")
+    #     print "MIN RESULT"
+    #     print Tree.tree_map_to_string(min(results))
+    #     print min(results).init_tree
+    #     print min(results).fitness
 
 
-init_population = generate_init_population()
-result = False
-counter = 0
-while counter < 500:
-    print("************************************************************************************************************"
-          "************************************************************************************************************")
-    print(counter)
-    best_individuals = deepcopy(reproduce(init_population))
-
-    if len(best_individuals) == 0:
-        print("Reproduction empty")
-        break
-
-    new_generation = deepcopy(create_new_generation(best_individuals))
-    mutated_trees = deepcopy(mutate_trees(new_generation))
-    check_fitness(mutated_trees)
-    init_population = deepcopy(mutated_trees)
-
-    if len(init_population) == 0:
-        print("Empty population")
-        break
-    counter += 1
-
-print("End")
-if len(results) > 0:
-    print("")
-    print "MIN RESULT"
-    print Tree.tree_map_to_string(min(results))
-    print min(results).init_tree
-    print min(results).fitness
+main()

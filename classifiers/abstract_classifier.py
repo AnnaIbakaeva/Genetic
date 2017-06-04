@@ -5,6 +5,7 @@ from  numpy import sum
 from sklearn.neural_network import MLPClassifier
 from sklearn import tree
 
+
 class AbstractClassifier(object):
 
     def __init__(self, features, target):

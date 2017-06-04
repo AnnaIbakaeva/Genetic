@@ -57,18 +57,17 @@ def get_features(img):
     features_list.append(sobely_gradient(deepcopy(img)))
     features_list.append(laplacian_gradient(deepcopy(img)))
 
-    contours = find_contours(deepcopy(img))
-    contour_feautes = []
-    for contour in contours:
-        ms = []
-        moments = get_moments(contour)
-        # ms.append(deepcopy(moments))
-        ms.append(moments_get_center(deepcopy(moments)))
-        ms.append(moments_get_skew(deepcopy(moments)))
-        ms.append(get_centroid(deepcopy(moments)))
-        contour_feautes.append(ms)
-
-    features_list.append(contour_feautes)
+    # contours = find_contours(deepcopy(img))
+    # contour_feautes = []
+    # for contour in contours:
+    #     ms = []
+    #     moments = get_moments(contour)
+    #     ms.append(moments_get_center(deepcopy(moments)))
+    #     ms.append(moments_get_skew(deepcopy(moments)))
+    #     ms.append(get_centroid(deepcopy(moments)))
+    #     contour_feautes.append(ms)
+    #
+    # features_list.append(contour_feautes)
 
     features_list.append(erosion_by_dilation(deepcopy(img)))
     features_list.append(dilate_image(deepcopy(img)))
@@ -79,7 +78,7 @@ def get_features(img):
     features_list.append(box_blur_image(deepcopy(img)))
     features_list.append(filter_image(deepcopy(img)))
 
-    get_threshold(deepcopy(img))
+    # get_threshold(deepcopy(img))
 
     features_list.append(get_corner(deepcopy(img)))
     features_list.append(surf_features(deepcopy(img)))

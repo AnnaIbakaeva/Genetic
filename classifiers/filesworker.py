@@ -4,6 +4,7 @@ from os import listdir
 from os.path import isfile, join
 from lxml import etree
 from PIL import Image
+import cv2
 
 
 def parse_xml(xml_files):
@@ -26,7 +27,7 @@ def parse_xml(xml_files):
     return xml_uids
 
 
-def get_files(root_path):
+def _get_files(root_path):
     dirs = listdir(root_path)
     dcm_files = []
     xml_files =[]
@@ -85,10 +86,33 @@ def convert_to_jpg(path):
             im.convert("RGB").save(join(path, ds.SOPInstanceUID + ".jpg"))
 
 
+def get_nodule_images():
+    path = "D:\\CanserImages\\NoduleJpg"
+    imgs = []
+    files = listdir(path)
+    for file in files:
+        end_path = join(path, file)
+        img = cv2.imread(end_path)
+        imgs.append(img)
+    return imgs
+
+
+def get_free_images():
+    path = "D:\\CanserImages\\FreeJpg"
+    imgs = []
+    files = listdir(path)
+    for file in files:
+        end_path = join(path, file)
+        img = cv2.imread(end_path)
+        imgs.append(img)
+        if len(img) > 500:
+            break
+    return imgs
+
 
 def main():
     root_path = "E:\\Study\\Master\\Canser_images\\DOI"
-    files_dict = get_files(root_path)
+    files_dict = _get_files(root_path)
     print("Files received ", len(files_dict.keys()))
     for xml in files_dict.keys():
         files_dict[xml] = get_dcm_imgs(files_dict[xml])

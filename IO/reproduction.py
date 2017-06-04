@@ -1,20 +1,23 @@
 #-*- coding: utf-8 -*-
 import polish_notation
 from math import isinf, ceil
-from constants import VARIABLE_VALUES_SET, TARGET_VALUES
+from constants import VARIABLE_VALUES_SET
 from functions import Function
 import copy
 from tree import Tree
+from classifiers.abstract_classifier import KnnClassifier
 
 
 class Reproductor(object):
 
-    def __init__(self, population):
+    def __init__(self, population, classifiers):
         self._init_population = list(population)
         self._selected_population = []
         self._del_individuals = set()
         self.adjusted_fitness_values = []
-        self._get_sum_fitness_function()
+        self.classifiers = classifiers
+
+        # self._get_sum_fitness_function()
 
     def _get_sum_fitness_function(self):
         i = 0
@@ -33,8 +36,8 @@ class Reproductor(object):
             i += 1
 
     def _get_error(self, individual, target, variable_values):
-        notation = polish_notation.get_polish_notation(individual)
-        value = polish_notation.calculate_polish_notation(notation, variable_values)
+        # notation = polish_notation.get_polish_notation(individual)
+        # value = polish_notation.calculate_polish_notation(notation, variable_values)
         if isinf(value):
             self._del_individuals.add(individual)
             return value
