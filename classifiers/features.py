@@ -28,18 +28,67 @@ def moments_get_center(m):
 
     1. Simon Xinmeng Liao. Image analysis by moments. (1993).
     """
+    if m['m00'] == 0:
+        return None
     return np.array( (int(m['m10']/m['m00']), int(m['m01']/m['m00'])) )
 
 
 def moments_get_skew(m):
     """Returns the skew from moments."""
+    if m['mu02'] == 0:
+        return None
     return m['mu11']/m['mu02']
 
 
 def get_centroid(m):
+    if 'mu00' not in m or m['mu00'] == 0:
+        return None
     x = m['mu10']/m['mu00']
     y = m['mu01']/m['mu00']
     return x, y
+
+
+def get_features(img):
+    features_list = []
+    features_list.append(fourier_and_back_transform(deepcopy(img)))
+    features_list.append(apply_clahe(deepcopy(img)))
+    features_list.append(canny_edge_detection(deepcopy(img)))
+    features_list.append(sobelx_gradient(deepcopy(img)))
+    features_list.append(sobely_gradient(deepcopy(img)))
+    features_list.append(laplacian_gradient(deepcopy(img)))
+
+    contours = find_contours(deepcopy(img))
+    contour_feautes = []
+    for contour in contours:
+        ms = []
+        moments = get_moments(contour)
+        # ms.append(deepcopy(moments))
+        ms.append(moments_get_center(deepcopy(moments)))
+        ms.append(moments_get_skew(deepcopy(moments)))
+        ms.append(get_centroid(deepcopy(moments)))
+        contour_feautes.append(ms)
+
+    features_list.append(contour_feautes)
+
+    features_list.append(erosion_by_dilation(deepcopy(img)))
+    features_list.append(dilate_image(deepcopy(img)))
+    features_list.append(erode_image(deepcopy(img)))
+    features_list.append(bilaterial_filter(deepcopy(img)))
+    features_list.append(median_blur(deepcopy(img)))
+    features_list.append(gaussian_blur(deepcopy(img)))
+    features_list.append(box_blur_image(deepcopy(img)))
+    features_list.append(filter_image(deepcopy(img)))
+
+    get_threshold(deepcopy(img))
+
+    features_list.append(get_corner(deepcopy(img)))
+    features_list.append(surf_features(deepcopy(img)))
+
+    # features_list.append(get_major_defects(deepcopy(contours)))
+    # features_list.append(deskew(deepcopy(img)))
+    features_list.append(color_histograms(deepcopy(img)))
+
+    return features_list
 
 
 def color_histograms(img, histsize=None, mask=None, colorspace=CS_BGR):
@@ -299,7 +348,8 @@ def feature_matcher(des1, des2):
     return matches
 
 
-def get_threshold(gray):
+def get_threshold(init_img):
+    gray = cv2.cvtColor(init_img, cv2.COLOR_BGR2GRAY)
     img = cv2.medianBlur(gray, 5)
 
     ret, th1 = cv2.threshold(img, 127, 255, cv2.THRESH_BINARY)
@@ -353,24 +403,6 @@ def erosion_by_dilation(img):
     return opening
 
 
-def get_features(img):
-    features_list = []
-    features_list.append(fourier_and_back_transform(deepcopy(img)))
-    print("fourie completed")
-    features_list.append(apply_clahe(deepcopy(img)))
-    print("clahe completed")
-    # features_list.append(canny_edge_detection(deepcopy(img)))
-    features_list.append(sobelx_gradient(deepcopy(img)))
-    print("sobel x completed")
-    features_list.append(sobely_gradient(deepcopy(img)))
-    print("sobel y completed")
-    features_list.append(laplacian_gradient(deepcopy(img)))
-    print("laplacian completed")
-    contours = find_contours(np.ndarray.astype(img, 'float32'))
-    print("contours completed")
-    return features_list
-
-
 def laplacian_gradient(img):
     laplacian = cv2.Laplacian(img,cv2.CV_64F)
     return laplacian
@@ -392,9 +424,8 @@ def canny_edge_detection(img):
 
 
 def find_contours(img):
-    ret,thresh = cv2.threshold(img, 127, 255, cv2.THRESH_BINARY)
-    print(ret)
-    print(thresh)
+    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    ret,thresh = cv2.threshold(gray, 127, 255, cv2.THRESH_BINARY)
     im2, contours, hierarchy = cv2.findContours(thresh, cv2.RETR_EXTERNAL , cv2.CHAIN_APPROX_SIMPLE)
     return contours
 
@@ -411,8 +442,9 @@ def contour_approximation(cnt):
 
 
 def apply_clahe(img):
+    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     clahe = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(8,8))
-    cl1 = clahe.apply(img)
+    cl1 = clahe.apply(gray)
     return cl1
 
 
@@ -436,14 +468,14 @@ def numpy_back_furie(fshift, img):
 
 
 def foirier_transform(img):
-    # gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-    dft = cv2.dft(np.float32(img),flags = cv2.DFT_COMPLEX_OUTPUT)
+    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    dft = cv2.dft(np.float32(gray),flags = cv2.DFT_COMPLEX_OUTPUT)
     dft_shift = np.fft.fftshift(dft)
     return dft_shift
 
 
 def fourier_back_transfrom(img, dft_shift):
-    rows, cols = img.shape
+    rows, cols, dim = img.shape
     crow,ccol = rows/2 , cols/2
 
     # create a mask first, center square is 1, remaining all zeros
