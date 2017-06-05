@@ -17,7 +17,7 @@ class Reproductor(object):
         self.adjusted_fitness_values = []
         self.classifiers = classifiers
 
-        # self._get_sum_fitness_function()
+        self._get_sum_fitness_function()
 
     def _get_sum_fitness_function(self):
         i = 0
@@ -36,8 +36,8 @@ class Reproductor(object):
             i += 1
 
     def _get_error(self, individual, target, variable_values):
-        # notation = polish_notation.get_polish_notation(individual)
-        # value = polish_notation.calculate_polish_notation(notation, variable_values)
+        notation = polish_notation.get_polish_notation(individual)
+        value = polish_notation.calculate_polish_notation(notation, variable_values)
         if isinf(value):
             self._del_individuals.add(individual)
             return value
