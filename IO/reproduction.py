@@ -1,7 +1,6 @@
 #-*- coding: utf-8 -*-
 import polish_notation
 from math import isinf, ceil
-from constants import VARIABLE_VALUES_SET
 from functions import Function
 import copy
 from tree import Tree

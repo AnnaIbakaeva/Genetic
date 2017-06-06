@@ -6,7 +6,7 @@ from polish_notation import get_polish_notation, calculate_polish_notation, nota
 from functions import TwoVariableFunction, Function
 from reproduction import Reproductor
 from random import choice, randint
-from constants import VARIABLE_VALUES_SET, MUTATION_PROBABILITY, \
+from constants import MUTATION_PROBABILITY, \
     TREE_NUMBER, FOREST_NUMBER, ITERATIONS_COUNT,\
     NODAL_MUTATION_PROBABILITY, TARGET_RESULT, CROSS_PROBABILITY, REPRODUCTION_PROBABILITY, ALLOWABLE_ERROR
 from copy import deepcopy
@@ -131,24 +131,29 @@ def get_learned_classifiers():
     nodule_imgs = get_nodule_images()
     data = []
     target = []
-    for img in nodule_imgs:
-        fs = get_features(img)
-        data.append(fs)
-        target.append(1)
-    print("nodule features get")
 
-    free_imgs = get_free_images()
-    for img in free_imgs:
-        fs = get_features(img)
-        data.append(fs)
-        target.append(0)
-    print("free features get")
+    img = nodule_imgs[0]
+    fs = get_features(img)
+    print(fs)
 
-    classifiers.append(KnnClassifier(data, target))
-    classifiers.append(SvmClassifier(data, target))
-    classifiers.append(BayesClassifier(data, target))
-    classifiers.append(DecisionTreesClassifier(data,target))
-    classifiers.append(AnnClassifier(data,target))
+    # for img in nodule_imgs:
+    #     fs = get_features(img)
+    #     data.append(fs)
+    #     target.append(1)
+    # print("nodule features get")
+    #
+    # free_imgs = get_free_images()
+    # for img in free_imgs:
+    #     fs = get_features(img)
+    #     data.append(fs)
+    #     target.append(0)
+    # print("free features get")
+    #
+    # classifiers.append(KnnClassifier(data, target))
+    # classifiers.append(SvmClassifier(data, target))
+    # classifiers.append(BayesClassifier(data, target))
+    # classifiers.append(DecisionTreesClassifier(data,target))
+    # classifiers.append(AnnClassifier(data,target))
     return classifiers
 
 # def select_best_result_with_secondary_data(trees):
@@ -164,7 +169,7 @@ def get_learned_classifiers():
 
 def main():
     classifiers = get_learned_classifiers()
-    init_population = generate_init_population()
+    # init_population = generate_init_population()
     result = False
     counter = 0
     # while counter < ITERATIONS_COUNT:
