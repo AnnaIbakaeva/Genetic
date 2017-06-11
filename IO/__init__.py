@@ -11,10 +11,7 @@ from constants import MUTATION_PROBABILITY, \
     NODAL_MUTATION_PROBABILITY, TARGET_RESULT, CROSS_PROBABILITY, REPRODUCTION_PROBABILITY, ALLOWABLE_ERROR
 from copy import deepcopy
 from math import isinf
-from  classifiers.features import get_features
-from classifiers.filesworker import get_free_images, get_nodule_images
-from  classifiers.abstract_classifier import KnnClassifier, SvmClassifier, BayesClassifier, \
-    DecisionTreesClassifier, AnnClassifier
+
 
 results = []
 
@@ -126,52 +123,17 @@ def create_new_generation(population):
     return new_population
 
 
-def get_learned_classifiers():
-    classifiers = []
-    nodule_imgs = get_nodule_images()
-    data = []
-    target = []
 
-    img = nodule_imgs[0]
-    fs = get_features(img)
-    print(fs)
 
-    # for img in nodule_imgs:
-    #     fs = get_features(img)
-    #     data.append(fs)
-    #     target.append(1)
-    # print("nodule features get")
-    #
-    # free_imgs = get_free_images()
-    # for img in free_imgs:
-    #     fs = get_features(img)
-    #     data.append(fs)
-    #     target.append(0)
-    # print("free features get")
-    #
-    # classifiers.append(KnnClassifier(data, target))
-    # classifiers.append(SvmClassifier(data, target))
-    # classifiers.append(BayesClassifier(data, target))
-    # classifiers.append(DecisionTreesClassifier(data,target))
-    # classifiers.append(AnnClassifier(data,target))
-    return classifiers
-
-# def select_best_result_with_secondary_data(trees):
-#     errors = []
-#     for individual in trees:
-#         fitness = 0
-#         for i in range(0, len(SECONDARY_INPUTS)):
-#             fitness += Reproductor.get_error(individual, SECONDARY_OUTPUTS[i], SECONDARY_INPUTS[i])
-#         errors.append(fitness)
-#     best_fitness = min(errors)
-#     position = errors.index(best_fitness)
-#     return trees[position]
 
 def main():
-    classifiers = get_learned_classifiers()
-    # init_population = generate_init_population()
+
+    init_population = generate_init_population()
     result = False
     counter = 0
+
+    reproductor = Reproductor()
+
     # while counter < ITERATIONS_COUNT:
     #     print("************************************************************************************************************"
     #           "************************************************************************************************************")
