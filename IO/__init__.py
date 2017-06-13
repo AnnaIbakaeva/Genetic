@@ -6,8 +6,8 @@ from polish_notation import get_polish_notation, calculate_polish_notation, nota
 from functions import TwoVariableFunction, Function
 from reproduction import Reproductor
 from random import choice, randint
-from constants import MUTATION_PROBABILITY, \
-    TREE_NUMBER, FOREST_NUMBER, ITERATIONS_COUNT,\
+from constants import MUTATION_PROBABILITY, POPULATION_NUMBER, TARGET_VALUES,\
+    TREE_NUMBER, FOREST_NUMBER, ITERATIONS_COUNT, VARIABLE_VALUES_SET,\
     NODAL_MUTATION_PROBABILITY, TARGET_RESULT, CROSS_PROBABILITY, REPRODUCTION_PROBABILITY, ALLOWABLE_ERROR
 from copy import deepcopy
 from math import isinf
@@ -17,27 +17,22 @@ results = []
 
 
 def generate_init_population():
-    forests = []
-    i = 0
-    while i < FOREST_NUMBER:
-        trees = []
-        j = 0
-        while j < TREE_NUMBER:
-            depth = (j+1)/2 + 1 # (j+100)/100 + 1
-            tree_creator = tree_creation.TreeCreator(depth)
-            if j % 2 == 0:
-                tree_creator.create(False)
-            else:
-                tree_creator.create(True)
-            t = tree_creator.tree
-            trees.append(Tree(t.init_tree, t.tree_map))
-            print(Tree.tree_map_to_string(t.tree_map))
-            print(t.init_tree)
-            print("")
-            j += 1
-        forests.append(trees)
-        i += 1
-    return list(forests)
+    trees = []
+    j = 0
+    while j < TREE_NUMBER:
+        depth = (j+1)/2 + 1 # (j+100)/100 + 1
+        tree_creator = tree_creation.TreeCreator(depth)
+        if j % 2 == 0:
+            tree_creator.create(False)
+        else:
+            tree_creator.create(True)
+        t = tree_creator.tree
+        trees.append(Tree(t.init_tree, t.tree_map))
+        print(Tree.tree_map_to_string(t.tree_map))
+        print(t.init_tree)
+        print("")
+        j += 1
+    return trees
 
 
 def reproduce(trees):
@@ -85,7 +80,7 @@ def check_fitness(trees):
             continue
         sum_error = 0
         good_individual = True
-        for i in range(0, len(TARGET_VALUES)):
+        for i in range(0, len(VARIABLE_VALUES_SET)):
             error = Reproductor.get_error(one_tree, TARGET_VALUES[i], VARIABLE_VALUES_SET[i])
             if error > ALLOWABLE_ERROR:
                 good_individual = False
@@ -123,44 +118,39 @@ def create_new_generation(population):
     return new_population
 
 
-
-
-
 def main():
 
     init_population = generate_init_population()
     result = False
     counter = 0
 
-    reproductor = Reproductor()
+    while counter < ITERATIONS_COUNT:
+        print("************************************************************************************************************"
+              "************************************************************************************************************")
+        print(counter)
+        best_individuals = deepcopy(reproduce(init_population))
 
-    # while counter < ITERATIONS_COUNT:
-    #     print("************************************************************************************************************"
-    #           "************************************************************************************************************")
-    #     print(counter)
-    #     best_individuals = deepcopy(reproduce(init_population))
-    #
-    #     if len(best_individuals) == 0:
-    #         print("Reproduction empty")
-    #         break
-    #
-    #     new_generation = deepcopy(create_new_generation(best_individuals))
-    #     mutated_trees = deepcopy(mutate_trees(new_generation))
-    #     check_fitness(mutated_trees)
-    #     init_population = deepcopy(mutated_trees)
-    #
-    #     if len(init_population) == 0:
-    #         print("Empty population")
-    #         break
-    #     counter += 1
-    #
-    # print("End")
-    # if len(results) > 0:
-    #     print("")
-    #     print "MIN RESULT"
-    #     print Tree.tree_map_to_string(min(results))
-    #     print min(results).init_tree
-    #     print min(results).fitness
+        if len(best_individuals) == 0:
+            print("Reproduction empty")
+            break
+
+        new_generation = deepcopy(create_new_generation(best_individuals))
+        mutated_trees = deepcopy(mutate_trees(new_generation))
+        check_fitness(mutated_trees)
+        init_population = deepcopy(mutated_trees)
+
+        if len(init_population) == 0:
+            print("Empty population")
+            break
+        counter += 1
+
+    print("End")
+    if len(results) > 0:
+        print("")
+        print "MIN RESULT"
+        print Tree.tree_map_to_string(min(results))
+        print min(results).init_tree
+        print min(results).fitness
 
 
 main()

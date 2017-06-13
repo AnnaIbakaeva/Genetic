@@ -4,6 +4,7 @@ from math import isinf, ceil
 from functions import Function
 import copy
 from tree import Tree
+from constants import TARGET_VALUES, VARIABLE_VALUES_SET
 from  classifiers.features import get_features
 from classifiers.filesworker import get_free_images, get_nodule_images
 from  classifiers.abstract_classifier import KnnClassifier, SvmClassifier, BayesClassifier, \
@@ -12,8 +13,8 @@ from  classifiers.abstract_classifier import KnnClassifier, SvmClassifier, Bayes
 
 class Reproductor(object):
 
-    def __init__(self, classifiers):
-
+    def __init__(self, trees):
+         self._init_population = trees
          self.nodule_imgs = get_nodule_images()
          self.free_imgs = get_free_images()
          self.create_learned_classifiers()
@@ -22,7 +23,7 @@ class Reproductor(object):
          self._del_individuals = set()
          self.adjusted_fitness_values = []
 
-        # self._get_sum_fitness_function()
+         self.count_sum_fitness_function()
 
     def create_learned_classifiers(self):
         self.classifiers = []
@@ -33,13 +34,11 @@ class Reproductor(object):
             fs = get_features(img)
             data.append(fs)
             target.append(1)
-        print("nodule features get")
 
         for img in self.free_imgs:
             fs = get_features(img)
             data.append(fs)
             target.append(0)
-        print("free features get")
 
         self.classifiers.append(KnnClassifier(data, target))
         self.classifiers.append(SvmClassifier(data, target))
@@ -47,14 +46,13 @@ class Reproductor(object):
         self.classifiers.append(DecisionTreesClassifier(data,target))
         self.classifiers.append(AnnClassifier(data,target))
 
-    def count_sum_fitness_function(self, population):
+    def count_sum_fitness_function(self):
         i = 0
-        while i < len(self.nodule_imgs):
+        while i < len(VARIABLE_VALUES_SET):
             sum_adjusted_fitness = 0
             for individual in self._init_population:
                 if len(individual.tree_map) > 0:
-                    # self.classifiers[0].predict(individual)
-                    # fitness = self._get_error(individual, TARGET_VALUES[i], VARIABLE_VALUES_SET[i])
+                    fitness = self._get_error(individual, TARGET_VALUES[i], VARIABLE_VALUES_SET[i])
                     if not isinf(fitness):
                         sum_adjusted_fitness += Reproductor.get_adjusted_fitness(fitness)
             if isinf(sum_adjusted_fitness):
@@ -65,10 +63,14 @@ class Reproductor(object):
             i += 1
 
 
-    def _classify(self, forest):
+    def _classify(self, forest, variable_values):
+        features = []
         for tree in forest:
             notation = polish_notation.get_polish_notation(tree)
             feature = polish_notation.calculate_polish_notation(notation, variable_values)
+            features.append(feature)
+        return features
+
 
 
     def _get_error(self, individual, target, variable_values):
@@ -87,7 +89,7 @@ class Reproductor(object):
             if not individual in self._del_individuals and len(individual.tree_map) > 0:
                 i = 0
                 counts = 0
-                while i < len(TARGET_VALUES):
+                while i < len(VARIABLE_VALUES_SET):
                     fitness = self._get_error(individual, TARGET_VALUES[i], VARIABLE_VALUES_SET[i])
                     adjusted_fitness = Reproductor.get_adjusted_fitness(fitness)
                     counts += int((adjusted_fitness/self.adjusted_fitness_values[i]) * len(self._init_population))
